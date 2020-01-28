@@ -1,0 +1,23 @@
+{
+  "name": "task-5",
+  "version": "1.0.0",
+  "description": "itransition-task",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"nodemon index.js\" \"npm start --prefix client\""
+  },
+  "author": "AlexanderMakarchik",
+  "license": "ISC"
+}
