@@ -1,3 +1,15 @@
+@import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.img-link {
+  cursor: pointer;
+  height: 30px;
+}
