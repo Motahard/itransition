@@ -1,1 +1,8 @@
-<p>companies works!</p>
+<div class="container mt-3">
+  <app-search></app-search>
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let company of companies">
+      <app-company-item [company]="company"></app-company-item>
+    </div>
+  </div>
+</div>

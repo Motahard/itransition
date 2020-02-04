@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark">
-  <ul class="navbar-nav mr-auto flex-row" *ngIf="!user; else userAuthenticated">
+  <ul class="navbar-nav mx-auto flex-row" *ngIf="!user; else userAuthenticated">
     <li class="nav-item mr-2">
       <a class="nav-link" routerLink="/">Home</a>
     </li>
@@ -11,8 +11,10 @@
     </li>
   </ul>
   <ng-template #userAuthenticated>
-    <ul class="navbar-nav mr-auto flex-row">
-      <span class="navbar-brand mb-0 h1">Hello, {{ user.name }}</span>
+    <ul class="navbar-nav mx-auto flex-row">
+      <span class="navbar-brand mb-0 h1 text-muted d-md-block d-none"
+        >Hello, {{ user.name }}</span
+      >
       <li class="nav-item active mr-2">
         <a class="nav-link" routerLink="/">Home</a>
       </li>
@@ -21,16 +23,4 @@
       </li>
     </ul>
   </ng-template>
-
-  <form class="form-inline" style="flex-flow: unset;">
-    <input
-      class="form-control mr-sm-2"
-      type="search"
-      placeholder="Search"
-      aria-label="Search"
-    />
-    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">
-      Search
-    </button>
-  </form>
 </nav>

@@ -1,12 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Subject, BehaviorSubject } from "rxjs";
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+import { User } from "../models/user.class";
 
 @Injectable({
   providedIn: "root"

@@ -11,7 +11,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { MainPageComponent } from "./pages/main-page/main-page.component";
 import { TokenInterceptor } from "./interceptors/token";
-import { CompaniesComponent } from './components/companies/companies.component';
+import { CompaniesComponent } from "./components/companies/companies.component";
+import { AddCompanyComponent } from './components/add-company/add-company.component';
+import { CreateCompanyPageComponent } from './pages/create-company-page/create-company-page.component';
+import { SearchComponent } from './components/search/search.component';
+import { CompanyItemComponent } from './components/company-item/company-item.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { CompaniesComponent } from './components/companies/companies.component';
     RegistrationPageComponent,
     NavbarComponent,
     MainPageComponent,
-    CompaniesComponent
+    CompaniesComponent,
+    AddCompanyComponent,
+    CreateCompanyPageComponent,
+    SearchComponent,
+    CompanyItemComponent
   ],
   imports: [
     BrowserModule,
