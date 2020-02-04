@@ -3,22 +3,57 @@
     <div class="card-title my-3">
       <h2 class="text-center font-weight-normal">Registration</h2>
     </div>
-    <div class="card-body">
-      <form>
+    <div class="card-body pt-0">
+      <form (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <input matInput placeholder="Email" class="form-control" />
+          <input
+            placeholder="Email"
+            class="form-control"
+            [(ngModel)]="email"
+            name="email"
+            required
+            type="email"
+          />
         </div>
         <div class="form-group">
-          <input matInput placeholder="Name" class="form-control" />
+          <input
+            type="text"
+            required
+            placeholder="Name"
+            class="form-control"
+            [(ngModel)]="name"
+            name="name"
+          />
         </div>
         <div class="input-group mb-3">
-          <input matInput placeholder="Password" class="form-control" />
-          <input matInput placeholder="Confirm Password" class="form-control" />
+          <input
+            type="password"
+            required
+            placeholder="Password"
+            class="form-control"
+            [(ngModel)]="password"
+            name="password"
+          />
+          <input
+            placeholder="Confirm Password"
+            class="form-control"
+            required
+            type="password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+          />
         </div>
         <div class="form-group">
-          <button class="btn btn-block btn-outline-primary">Register</button>
+          <input
+            class="btn btn-block btn-outline-primary"
+            value="Register"
+            type="submit"
+          />
         </div>
       </form>
+      <p class="bg-danger text-center mb-2 p-2 text-light" *ngIf="error">
+        {{ error }}
+      </p>
       <p class="text-center">...or login with social media</p>
       <div class="text-center">
         <img

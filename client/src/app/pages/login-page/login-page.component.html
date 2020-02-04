@@ -4,17 +4,40 @@
       <h2 class="text-center font-weight-normal">Login</h2>
     </div>
     <div class="card-body">
-      <form>
+      <form (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <input matInput placeholder="Email" class="form-control" />
+          <input
+            matInput
+            placeholder="Email"
+            class="form-control"
+            [(ngModel)]="email"
+            type="text"
+            required
+            name="email"
+          />
         </div>
         <div class="form-group">
-          <input matInput placeholder="Password" class="form-control" />
+          <input
+            matInput
+            placeholder="Password"
+            class="form-control"
+            type="password"
+            required
+            [(ngModel)]="password"
+            name="password"
+          />
         </div>
         <div class="form-group">
-          <button class="btn btn-block btn-outline-primary">Login</button>
+          <input
+            type="submit"
+            class="btn btn-block btn-outline-primary"
+            value="Login"
+          />
         </div>
       </form>
+      <p class="bg-danger text-center mb-2 p-2 text-light" *ngIf="error">
+        {{ error }}
+      </p>
       <p class="text-center">...or login with social media</p>
       <div class="text-center">
         <img
