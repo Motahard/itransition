@@ -13,10 +13,10 @@ export class AuthService {
   errorLogin: BehaviorSubject<string>;
 
   constructor(private http: HttpClient) {
-    this.user = new BehaviorSubject<User>(null);
+    this.user = new BehaviorSubject<User>(undefined);
     this.token = new BehaviorSubject<string>(this.getTokenFromLocalStorage());
-    this.errorRegister = new BehaviorSubject<string>(null);
-    this.errorLogin = new BehaviorSubject<string>(null);
+    this.errorRegister = new BehaviorSubject<string>(undefined);
+    this.errorLogin = new BehaviorSubject<string>(undefined);
   }
 
   setTokenInLocalStorage(token): void {
@@ -24,7 +24,9 @@ export class AuthService {
   }
 
   getTokenFromLocalStorage(): string {
-    return JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) this.getUser();
+    return token;
   }
 
   removeTokenFromLocalStorage(): void {
@@ -48,6 +50,7 @@ export class AuthService {
           this.setTokenInLocalStorage(authToken);
           this.token.next(authToken);
           this.errorRegister.next(null);
+          this.getUser();
         },
         (err: HttpErrorResponse) => {
           this.errorRegister.next(err.error);
@@ -72,6 +75,7 @@ export class AuthService {
           this.setTokenInLocalStorage(authToken);
           this.token.next(authToken);
           this.errorLogin.next(null);
+          this.getUser();
         },
         (err: HttpErrorResponse) => {
           this.errorLogin.next(err.error);
@@ -80,15 +84,13 @@ export class AuthService {
   }
 
   getUser(): void {
-    this.http.get<User>("/api/user").subscribe(
-      res => {
+    this.http
+      .get<User>("/api/user")
+      .toPromise()
+      .then(res => {
         this.user.next(res);
-        console.log(res);
-      },
-      (err: HttpErrorResponse) => {
-        console.log(err.error);
-      }
-    );
+      })
+      .catch(error => console.log(error.message));
   }
 
   userLogout() {
