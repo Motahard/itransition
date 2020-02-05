@@ -13,38 +13,32 @@ export class CompaniesComponent implements OnInit {
   constructor(private companiesService: CompaniesService) {
     this.companies = [
       {
-        id: "1",
         title: "Company 1",
-        shortDescription:
+        description:
           "Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when",
-        description: "",
         amount: 10000,
         currentAmount: 0,
         category: "Food",
-        tags: ["#hi", "#hitch"],
+        tags: "#h#hitch",
         dateStart: Date.now(),
         dateEnd: Date.now() + 10000000
       },
       {
-        id: "2",
         title: "Company 2",
-        shortDescription:
+        description:
           "ut also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d",
-        description: "",
         amount: 1200,
-        tags: ["#hi", "#hitch"],
+        tags: "#hi#hitch",
         currentAmount: 1000,
         category: "Mother",
         dateStart: Date.now(),
         dateEnd: Date.now() + 1000000
       },
       {
-        id: "3",
         title: "Company 3",
-        tags: ["#hi", "#hitch"],
-        shortDescription:
+        tags: "#hi#hitch",
+        description:
           " content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web ",
-        description: "",
         amount: 3000,
         currentAmount: 1000,
         category: "Father ",

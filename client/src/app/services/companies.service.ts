@@ -13,10 +13,15 @@ export class CompaniesService {
     this.companies = new BehaviorSubject<Company[]>([]);
   }
 
-  getCompanies() {
-    this.http.get<Company[]>("/api/companies").subscribe(companies => {
-      //this.companies.next(companies);
-      console.log(companies);
+  createCompany(company: Company): void {
+    this.http.post("/api/companies/add", company).subscribe(res => {
+      console.log(res);
     });
+  }
+
+  getCompanies(): void {
+    // this.http.get<Company[]>("/api/companies").subscribe(companies => {
+    //   this.companies.next(companies);
+    // });
   }
 }

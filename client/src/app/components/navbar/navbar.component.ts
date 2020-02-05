@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.userSub$ = this.authService.user.subscribe(user => {
       this.user = user;
     });
+    this.authService.getUser();
+    console.log(this.user);
   }
 
   onLogoutClick() {
@@ -25,6 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log(this.user + "destoy");
     this.userSub$.unsubscribe();
   }
 }

@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject, BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subscription, Observable } from "rxjs";
 import { User } from "../models/user.class";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  user: Subject<User>;
+  user: BehaviorSubject<User>;
   token: BehaviorSubject<string>;
   errorRegister: BehaviorSubject<string>;
   errorLogin: BehaviorSubject<string>;
 
   constructor(private http: HttpClient) {
-    this.user = new Subject<User>();
+    this.user = new BehaviorSubject<User>(null);
     this.token = new BehaviorSubject<string>(this.getTokenFromLocalStorage());
     this.errorRegister = new BehaviorSubject<string>(null);
     this.errorLogin = new BehaviorSubject<string>(null);
@@ -83,6 +83,7 @@ export class AuthService {
     this.http.get<User>("/api/user").subscribe(
       res => {
         this.user.next(res);
+        console.log(res);
       },
       (err: HttpErrorResponse) => {
         console.log(err.error);

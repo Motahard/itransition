@@ -7,8 +7,8 @@
       {{ company.category }}
     </div>
     <div class="mt-2">
-      <span *ngFor="let tag of company.tags" class="text-primary">
-        {{ tag }}
+      <span class="text-primary">
+        {{ company.tags }}
       </span>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
   <div class="card-body py-2">
     <p class="text-justify">
-      {{ company.shortDescription }}
+      {{ company.description }}
     </p>
   </div>
   <div class="card-footer">
