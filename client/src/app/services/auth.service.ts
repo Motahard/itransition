@@ -3,9 +3,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Subscription, Observable } from "rxjs";
 import { User } from "../models/user.class";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class AuthService {
   user: BehaviorSubject<User>;
   token: BehaviorSubject<string>;
@@ -13,27 +11,32 @@ export class AuthService {
   errorLogin: BehaviorSubject<string>;
 
   constructor(private http: HttpClient) {
-    this.user = new BehaviorSubject<User>(undefined);
+    this.user = new BehaviorSubject<User>(null);
     this.token = new BehaviorSubject<string>(this.getTokenFromLocalStorage());
-    this.errorRegister = new BehaviorSubject<string>(undefined);
-    this.errorLogin = new BehaviorSubject<string>(undefined);
+    this.errorRegister = new BehaviorSubject<string>(null);
+    this.errorLogin = new BehaviorSubject<string>(null);
   }
 
-  setTokenInLocalStorage(token): void {
+  private setTokenInLocalStorage(token): void {
     localStorage.setItem("token", JSON.stringify(token));
   }
 
-  getTokenFromLocalStorage(): string {
-    const token = JSON.parse(localStorage.getItem("token"));
-    if (token) this.getUser();
-    return token;
+  public checkForTokenAndGetUser(): void {
+    const token = this.getTokenFromLocalStorage();
+    if (token) {
+      this.getUser();
+    }
   }
 
-  removeTokenFromLocalStorage(): void {
+  private getTokenFromLocalStorage(): string {
+    return JSON.parse(localStorage.getItem("token"));
+  }
+
+  private removeTokenFromLocalStorage(): void {
     localStorage.removeItem("token");
   }
 
-  userRegister(userCredentials): void {
+  public userRegister(userCredentials): void {
     this.http
       .post(
         "/api/register",
@@ -58,7 +61,7 @@ export class AuthService {
       );
   }
 
-  userLogin(userCredentials): void {
+  public userLogin(userCredentials): void {
     this.http
       .post(
         "/api/login",
@@ -83,7 +86,7 @@ export class AuthService {
       );
   }
 
-  getUser(): void {
+  public getUser(): void {
     this.http
       .get<User>("/api/user")
       .toPromise()
@@ -93,7 +96,7 @@ export class AuthService {
       .catch(error => console.log(error.message));
   }
 
-  userLogout() {
+  public userLogout() {
     this.removeTokenFromLocalStorage();
     this.user.next(null);
     this.token.next(null);

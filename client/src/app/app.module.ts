@@ -16,6 +16,7 @@ import { AddCompanyComponent } from "./components/add-company/add-company.compon
 import { CreateCompanyPageComponent } from "./pages/create-company-page/create-company-page.component";
 import { SearchComponent } from "./components/search/search.component";
 import { CompanyItemComponent } from "./components/company-item/company-item.component";
+import { AuthService } from "./services/auth.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CompanyItemComponent } from "./components/company-item/company-item.com
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

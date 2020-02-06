@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authService.user.subscribe(user => {
       this.user = user;
     });
+    this.authService.checkForTokenAndGetUser();
   }
 
   onLogoutClick() {
