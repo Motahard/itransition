@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import {Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { BehaviorSubject, Subscription, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { User } from "../models/user.class";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AuthService {
     this.errorLogin = new BehaviorSubject<string>(null);
   }
 
-  private setTokenInLocalStorage(token): void {
+   private setTokenInLocalStorage(token): void {
     localStorage.setItem("token", JSON.stringify(token));
   }
 

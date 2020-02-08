@@ -17,6 +17,8 @@ import { CreateCompanyPageComponent } from "./pages/create-company-page/create-c
 import { SearchComponent } from "./components/search/search.component";
 import { CompanyItemComponent } from "./components/company-item/company-item.component";
 import { AuthService } from "./services/auth.service";
+import { CompanyPageComponent } from "./pages/company-page/company-page.component";
+import { YoutubePipe } from "./pipes/youtube.pipe";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AuthService } from "./services/auth.service";
     AddCompanyComponent,
     CreateCompanyPageComponent,
     SearchComponent,
-    CompanyItemComponent
+    CompanyItemComponent,
+    CompanyPageComponent,
+    YoutubePipe
   ],
   imports: [
     BrowserModule,

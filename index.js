@@ -6,11 +6,10 @@ const db = require("./services/db");
 
 const authRoute = require("./routes/auth");
 const companiesRoute = require("./routes/companies");
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, "/client")));
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: true }));
 app.use(cors());
 
 app.use("/api", authRoute);

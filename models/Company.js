@@ -4,19 +4,16 @@ const companySchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    min: 6,
+    min: 2,
     max: 128
   },
-  shortDescription: {
-    type: String,
-    required: true,
-    min: 6,
-    max: 256
+  owner: {
+    type: String
   },
   description: {
     type: String,
     required: true,
-    min: 6,
+    min: 64,
     max: 2048
   },
   category: {
@@ -26,8 +23,7 @@ const companySchema = new mongoose.Schema({
     max: 64
   },
   tags: {
-    type: Array,
-    required: false
+    type: String
   },
   amount: {
     type: Number,
@@ -44,7 +40,17 @@ const companySchema = new mongoose.Schema({
   currentAmount: {
     type: Number,
     required: true
-  }
+  },
+  youtubeLink: {
+    type: String
+  },
+  bonuses: [
+    {
+      name: String,
+      price: Number,
+      description: String
+    }
+  ]
 });
 
 module.exports = mongoose.model("Company", companySchema);

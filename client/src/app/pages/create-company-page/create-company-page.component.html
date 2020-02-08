@@ -1,12 +1,12 @@
 <div class="container">
   <div class="card p-3 m-3">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (submit)="onSubmit()">
       <div class="form-group">
         <label for="title">Title of Company</label>
         <input
           type="text"
           class="form-control"
-          name="title"
+          id="title"
           formControlName="title"
           placeholder="Enter title...."
         />
@@ -17,7 +17,7 @@
         <textarea
           type="text"
           class="form-control"
-          name="description"
+          id="description"
           formControlName="description"
           placeholder="Enter description...."
           rows="5"
@@ -26,7 +26,7 @@
       </div>
       <div class="form-group">
         <label for="category">Select Category</label>
-        <select class="form-control" formControlName="category" name="category">
+        <select class="form-control" formControlName="category" id="category">
           <option value="services">Services</option>
           <option value="it">Information Technologies</option>
           <option value="innovations">Innovations</option>
@@ -37,6 +37,7 @@
         <label for="tags">Tags</label>
         <input
           type="text"
+          id="tags"
           class="form-control"
           formControlName="tags"
           placeholder="Enter tags...."
@@ -47,26 +48,50 @@
         <label for="amount">Amount</label>
         <input
           type="text"
+          id="amount"
           class="form-control"
           formControlName="amount"
           placeholder="Enter required amount...."
         />
       </div>
+      <label for="bonuseName" class="mt-2">Bonuse name and price</label>
+      <div formArrayName="bonuses" class='mb-2' *ngFor="let control of getBonuseControls; let i = index">
+        <div class="card" [formGroupName]="i.toString()">
+            <div class="row p-2">
+              <div class="col pr-0">
+                <input type="text" class="form-control" id="bonuseName" formControlName="name" placeholder="Enter bonuse name...">
+              </div>
+              <div class="col pl-0">
+                <input type="text" class="form-control" formControlName="price" placeholder="Enter bonuse price...">
+              </div>
+              <div class="col-md-12 mt-2">
+                <textarea type="text" class="form-control" formControlName="description" placeholder="Describe the bonus..."></textarea>
+              </div>
+              <div class="col-md-12 mt-2">
+                <button class="input-group-text ml-auto btn btn-outline-dark" type="button" (click)="removeBonuse(i)">Delete</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      <button class="input-group-text btn btn-block btn-outline-dark" type="button" (click)="addBonuse()">Add new bonuse</button>
+      <small class="form-text text-muted mb-3">Not required</small>
       <div class="form-group">
         <label for="dateEnd">Company end date</label>
-        <input type="date" class="form-control" formControlName="dateEnd" />
+        <input type="date" class="form-control" formControlName="dateEnd" id="dateEnd"/>
       </div>
       <div class="form-group">
         <label for="yLink">Youtube link</label>
         <input
           type="text"
+          id="yLink"
           class="form-control"
           formControlName="yLink"
           placeholder="Enter Youtube Link...."
+          (submit)="onSubmit()"
         />
         <small class="form-text text-muted">Not required</small>
       </div>
-      <button type="submit" class="btn btn-dark mb-2">Create Company</button>
+      <button type="submit" class="btn btn-dark mb-2" [disabled]="!form.valid">Create Company</button>
     </form>
   </div>
 </div>
