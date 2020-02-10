@@ -6,6 +6,8 @@ const db = require("./services/db");
 
 const authRoute = require("./routes/auth");
 const companiesRoute = require("./routes/companies");
+const userRoute = require("./routes/user");
+
 const app = express();
 
 app.use(express.static(path.join(__dirname, "/client")));
@@ -14,6 +16,7 @@ app.use(cors());
 
 app.use("/api", authRoute);
 app.use("/api", companiesRoute);
+app.use("/api", userRoute);
 
 const PORT = process.env.PORT || 5000;
 

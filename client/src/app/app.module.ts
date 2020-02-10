@@ -19,6 +19,8 @@ import { CompanyItemComponent } from "./components/company-item/company-item.com
 import { AuthService } from "./services/auth.service";
 import { CompanyPageComponent } from "./pages/company-page/company-page.component";
 import { YoutubePipe } from "./pipes/youtube.pipe";
+import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
+import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { YoutubePipe } from "./pipes/youtube.pipe";
     SearchComponent,
     CompanyItemComponent,
     CompanyPageComponent,
-    YoutubePipe
+    YoutubePipe,
+    ProfilePageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule,

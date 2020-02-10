@@ -1,5 +1,4 @@
 const Company = require("../models/Company");
-// const { validationResult } = require("express-validator");
 
 module.exports.getCompanies = async function(req, res) {
   try {

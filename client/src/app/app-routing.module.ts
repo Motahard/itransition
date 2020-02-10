@@ -5,6 +5,8 @@ import { RegistrationPageComponent } from "./pages/registration-page/registratio
 import { MainPageComponent } from "./pages/main-page/main-page.component";
 import { CreateCompanyPageComponent } from "./pages/create-company-page/create-company-page.component";
 import { CompanyPageComponent } from "./pages/company-page/company-page.component";
+import {ProfilePageComponent} from "./pages/profile-page/profile-page.component";
+import {NotFoundPageComponent} from "./pages/not-found-page/not-found-page.component";
 
 const routes: Routes = [
   { path: "", component: MainPageComponent },
@@ -13,8 +15,11 @@ const routes: Routes = [
     path: "register",
     component: RegistrationPageComponent
   },
-  { path: "create-company", component: CreateCompanyPageComponent },
-  { path: "company/:id", component: CompanyPageComponent }
+  { path: "create-company/:id", component: CreateCompanyPageComponent },
+  { path: "company/:id", component: CompanyPageComponent },
+  { path: "profile/:id", component: ProfilePageComponent },
+  { path: "404", component: NotFoundPageComponent },
+  { path: "**", redirectTo: "/404" }
 ];
 
 @NgModule({

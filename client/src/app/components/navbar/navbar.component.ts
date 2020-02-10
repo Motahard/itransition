@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { Subscription } from "rxjs";
 import { User } from "../../models/user.class";
@@ -8,17 +8,14 @@ import { User } from "../../models/user.class";
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"]
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnDestroy {
   user: User;
   userSub$: Subscription;
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
+  constructor(private authService: AuthService) {
     this.userSub$ = this.authService.user.subscribe(user => {
       this.user = user;
     });
-    this.authService.checkForTokenAndGetUser();
   }
 
   onLogoutClick() {

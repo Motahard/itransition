@@ -27,7 +27,7 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(["/create-company"]);
+    this.router.navigate([`/create-company/${this.user.id}`]);
   }
 
   ngOnDestroy() {

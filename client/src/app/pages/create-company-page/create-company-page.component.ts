@@ -4,6 +4,8 @@ import { Company } from "src/app/models/company.class";
 import {FormGroup, FormControl, Validators, FormArray} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
+import {User} from "../../models/user.class";
+import {Router} from "@angular/router";
 
 @Component({
   selector: "app-create-company-page",
@@ -14,17 +16,22 @@ export class CreateCompanyPageComponent implements OnInit, OnDestroy {
   form: any;
   company: Company;
   userSub$: Subscription;
+  user: User;
   id: string;
 
-  constructor(private companiesService: CompaniesService, private authService: AuthService) {
+  constructor(private companiesService: CompaniesService, private authService: AuthService, private router: Router) {
     this.userSub$ = this.authService.user.subscribe(user => {
       if (user) {
+        this.user = user;
         this.id = user.id;
       }
     });
   }
 
   ngOnInit() {
+    if (!this.user) {
+      this.router.navigate(["/login"]);
+    }
     this.form = new FormGroup({
       title: new FormControl("", [
         Validators.required,
@@ -72,7 +79,7 @@ export class CreateCompanyPageComponent implements OnInit, OnDestroy {
       slicedLink = yLink.slice(yLink.indexOf("=") + 1);
     }
     if (!this.id) {
-      return;
+
     }
 
     this.company = {

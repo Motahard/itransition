@@ -1,0 +1,55 @@
+<div class="container my-4">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Profile Information</h2>
+        <div class="card p-3">
+          <form *ngIf="user" [formGroup]="form" (ngSubmit)="onUpdate()">
+            <div class="form-group">
+              <label for="email">Your email address</label>
+              <img src="../../../assets/pencil.svg" alt="edit" class="ml-1" height="16" style="margin-top: -5px">
+              <input type="email" class="form-control" formControlName="email" id="email" placeholder="Edit email">
+            </div>
+            <div class="form-group">
+              <label for="name">Your name</label>
+              <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
+              <input type="text" class="form-control" formControlName="name" id="name" placeholder="Edit name...">
+            </div>
+            <div>
+              <p class="mb-0">Choose Theme
+                <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px"> :
+              </p>
+              <div class="p-2 form-check form-check-inline mb-2" style="border: 1px solid gray; border-radius: 5px">
+                <input class="form-check-input" formControlName="theme" type="radio" id="dark" value="dark">
+                <label class="form-check-label mr-3" for="dark">Dark Theme</label>
+                <input class="form-check-input" formControlName="theme" type="radio" id="light" value="light">
+                <label class="form-check-label" for="light">Light Theme</label>
+              </div>
+            </div>
+            <label for="language">Choose Language</label>
+            <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
+            <select id="language" formControlName="language" class="custom-select mt-2">
+              <option value="rus">Russian</option>
+              <option [selected]="true" value="eng">English</option>
+            </select>
+            <button class="btn btn-block btn-dark mt-3" [disabled]="!form.valid">Update</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2>Created companies</h2>
+        <div *ngIf="companies.length > 0; else noCompanies" class="card p-1">
+          <div *ngFor="let company of companies" class="card-body d-inline-flex align-items-center justify-content-between">
+            <a [routerLink]="'/company/'+company._id" class="py-2 mb-0 px-5">{{ company.title }}</a>
+            <div>
+              <button class="btn btn-outline-info mr-2">Edit</button>
+              <button class="btn btn-outline-danger" (click)="onDelete(company._id)">Delete</button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noCompanies>
+          <p class='lead'>You don`t create any company yet!</p>
+        </ng-template>
+        <button class="btn btn-block btn-outline-dark mt-2" (click)="createUserCompany()">Create now!</button>
+      </div>
+    </div>
+</div>
