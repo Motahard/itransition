@@ -41,7 +41,7 @@
             <div class="card-text">
               <p class="text-justify">{{ bonuse.description }}</p>
             </div>
-            <button class="btn btn-block btn-outline-dark">Donate {{ bonuse.price }} c.u.</button>
+            <button class="btn btn-block btn-outline-dark" [routerLink]="'/donation/' + id + '/' + bonuse.price">Donate {{ bonuse.price }} c.u.</button>
           </div>
 
         </div>
@@ -67,9 +67,18 @@
         {{ daysRemain }}
         days remain
       </small>
-      <button class="btn btn-block my-3 btn-dark">Donation</button>
+      <button class="btn btn-block my-3 btn-dark" [routerLink]="'/donation/' + id + '/' + 0">Donation</button>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [className]="showComments ? 'nav-link active' : 'nav-link'" (click)="showNews = false; showComments = true" [routerLink]="'/company/'+ id + '/comments'">Show Comments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [className]="showNews ? 'nav-link active' : 'nav-link'" (click)="showNews = true; showComments = false" [routerLink]="'/company/'+ id + '/news'">Show News</a>
+        </li>
+      </ul>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </div>
 <ng-template #loading>
   <div class="container">

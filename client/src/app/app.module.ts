@@ -21,6 +21,9 @@ import { CompanyPageComponent } from "./pages/company-page/company-page.componen
 import { YoutubePipe } from "./pipes/youtube.pipe";
 import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
+import { DonationPageComponent } from './pages/donation-page/donation-page.component';
+import { CompanyCommentsPageComponent } from './pages/company-comments-page/company-comments-page.component';
+import { CompanyNewsPageComponent } from './pages/company-news-page/company-news-page.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
     CompanyPageComponent,
     YoutubePipe,
     ProfilePageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    DonationPageComponent,
+    CompanyCommentsPageComponent,
+    CompanyNewsPageComponent
   ],
   imports: [
     BrowserModule,

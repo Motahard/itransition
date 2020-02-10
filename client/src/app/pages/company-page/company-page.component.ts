@@ -15,11 +15,14 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   public company: Company;
   public daysRemain: number;
   public amount: string;
+  public showNews: boolean;
+  public showComments: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private companiesService: CompaniesService
   ) {
+    this.showNews = true;
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
     this.companySub$ = this.companiesService.company.subscribe(company => {
       this.company = company;
