@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Company} from "../models/company.class";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
 import {User, UserSettings} from "../models/user.class";
 import {AuthService} from "./auth.service";
+import {CompaniesService} from "./companies.service";
 
 @Injectable({
   providedIn: "root"
@@ -11,7 +12,10 @@ import {AuthService} from "./auth.service";
 export class UserService {
   userCompanies: BehaviorSubject<Company[]>;
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private companiesService: CompaniesService
+  ) {
     this.userCompanies = new BehaviorSubject<Company[]>([]);
   }
 
@@ -37,11 +41,13 @@ export class UserService {
 
   public deleteUserCompany(idCompany) {
     const params = new HttpParams().set("id", idCompany);
-    this.http.delete<Company[]>("/api/user/company", {
+    const subscription = this.http.delete<Company[]>("/api/user/company", {
       params
     }).subscribe(companies => {
       this.userCompanies.next(companies);
-    });
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
   }
 
   public updateUserData(userData) {
@@ -55,15 +61,32 @@ export class UserService {
       id: userData.id
     };
     this.setUserSettingsInLocalStorage(settings);
-    this.http.put<User>("/api/user", data).subscribe(res => {
-      console.log(res);
+    const subscription = this.http.put<User>("/api/user", data).subscribe(res => {
       this.authService.user.next(res);
-    });
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
   }
 
   public getUserCompanies(): void {
-    this.http.get<Company[]>(`/api/user/company`).subscribe(companies => {
+    const subscription = this.http.get<Company[]>(`/api/user/company`).subscribe(companies => {
       this.userCompanies.next(companies);
-    });
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
+  }
+
+  public commentLikeUser(commentId, companyId) {
+    const subscription = this.http.post<User & Company>("/api/user/likes", {
+      commentId,
+      companyId
+    }).subscribe(res => {
+      // @ts-ignore
+      this.authService.user.next(res.savedUser);
+      // @ts-ignore
+      this.companiesService.companyMessages.next(res.savedCompanyMessages);
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
   }
 }

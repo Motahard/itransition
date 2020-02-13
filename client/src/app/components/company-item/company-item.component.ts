@@ -10,7 +10,6 @@ import {CompaniesService} from "../../services/companies.service";
 export class CompanyItemComponent implements OnInit {
   @Input() company: Company;
   daysRemain: number;
-
   amount: string;
 
   constructor(private companiesService: CompaniesService) {}

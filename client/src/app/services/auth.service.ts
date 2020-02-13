@@ -1,4 +1,4 @@
-import {Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { User } from "../models/user.class";
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   public userRegister(userCredentials): void {
-    this.http
+    const subsciption = this.http
       .post(
         "/api/register",
         {
@@ -57,12 +57,13 @@ export class AuthService {
         },
         (err: HttpErrorResponse) => {
           this.errorRegister.next(err.error);
-        }
+        },
+        () => subsciption.unsubscribe()
       );
   }
 
   public userLogin(userCredentials): void {
-    this.http
+    const subscription = this.http
       .post(
         "/api/login",
         {
@@ -82,7 +83,8 @@ export class AuthService {
         },
         (err: HttpErrorResponse) => {
           this.errorLogin.next(err.error);
-        }
+        },
+        () => subscription.unsubscribe()
       );
   }
 

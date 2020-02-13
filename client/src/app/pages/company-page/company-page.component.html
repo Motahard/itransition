@@ -1,14 +1,30 @@
 <div class="container" *ngIf="company && company._id === id; else loading">
-  <div class="card m-4">
+  <div class="m-lg-4">
     <div class="card-title px-5 py-3">
-      <h3 class="text-center">{{ company.title }}</h3>
-      <span class="badge badge-danger text-wrap mx-auto" style="width: 6rem;">
-        {{ company.category }}
-      </span>
-      <div class="mt-2">
-        <span class="text-primary" *ngIf="company.tags">
-          {{ company.tags }}
-        </span>
+      <h3 class="text-center mb-3">{{ company.title }}</h3>
+      <div class="row justify-content-around">
+        <div class="col-md-6 mb-2">
+          <div class="pl-2 text-primary text-break">
+            <span class="text-muted">Category: </span>
+            <span class="lead">
+             {{ company.category }}
+             </span>
+          </div>
+          <div class="card-title pl-2 mb-0 pt-2" *ngIf="company.tags">
+            <div class="mx-0">
+              <span class="text-muted">Tags: </span>
+              <span *ngFor="let tag of company.tags" class="badge ml-1 badge-danger">{{ tag }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <span class="ml-2 text-muted">Company started: </span>
+            <span>
+            {{ company.dateStart |date }}
+          </span>
+          </div>
+        </div>
       </div>
     </div>
     <hr class="m-0" />
@@ -19,6 +35,7 @@
       </p>
 
       <iframe
+        *ngIf="company.youtubeLink"
         width="100%"
         height="400"
         [src]="'https://www.youtube.com/embed/' + company.youtubeLink | youtube"
@@ -28,26 +45,29 @@
       ></iframe>
     </div>
     <hr />
-    <h3 class="text-center mb-4" *ngIf="company.bonuses">Bonuses</h3>
-    <div class="row px-5">
-      <div class="col-sm-4" *ngFor="let bonuse of company.bonuses">
-        <div class="card p-3">
-          <div class="card-body">
+    <div *ngIf="company.bonuses.length !== 0">
+      <h3 class="text-center mb-4">Bonuses</h3>
+      <div class="row px-5">
+        <div class="col-md-4" *ngFor="let bonuse of company.bonuses">
+          <div class="card p-3">
             <div class="card-title">
               <h5 class="text-center">
-                {{ bonuse.name }}
-              </h5>
+                  {{ bonuse.name }}</h5>
             </div>
-            <div class="card-text">
-              <p class="text-justify">{{ bonuse.description }}</p>
+            <div class="card-body pt-0">
+              <div class="card-text">
+                <p class="text-justify">{{ bonuse.description }}</p>
+              </div>
+              <button class="btn btn-block btn-outline-dark"
+                      [routerLink]="'/company/' + id + '/donation/' + bonuse.price">
+                Donate {{ bonuse.price }} c.u.
+              </button>
             </div>
-            <button class="btn btn-block btn-outline-dark" [routerLink]="'/donation/' + id + '/' + bonuse.price">Donate {{ bonuse.price }} c.u.</button>
           </div>
-
         </div>
       </div>
+      <hr />
     </div>
-    <hr />
     <div class="px-5 py-3">
       <p class="text-muted">
         {{ company.currentAmount }} / {{ company.amount }} c.u.
@@ -67,18 +87,24 @@
         {{ daysRemain }}
         days remain
       </small>
-      <button class="btn btn-block my-3 btn-dark" [routerLink]="'/donation/' + id + '/' + 0">Donation</button>
+      <button class="btn btn-block my-3 btn-dark" [routerLink]="'/company/' + id + '/donation/' + 0">Donation</button>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link" [className]="showComments ? 'nav-link active' : 'nav-link'" (click)="showNews = false; showComments = true" [routerLink]="'/company/'+ id + '/comments'">Show Comments</a>
+          <a class="nav-link" [className]="showComments ? 'nav-link active' : 'nav-link'"
+             (click)="showNews = false; showComments = true" [routerLink]="'/company/'+ id + '/comments'">
+            Show Comments
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [className]="showNews ? 'nav-link active' : 'nav-link'" (click)="showNews = true; showComments = false" [routerLink]="'/company/'+ id + '/news'">Show News</a>
+          <a class="nav-link" [className]="showNews ? 'nav-link active' : 'nav-link'"
+             (click)="showNews = true; showComments = false" [routerLink]="'/company/'+ id + '/news'">
+            Show News
+          </a>
         </li>
       </ul>
     </div>
+    <router-outlet></router-outlet>
   </div>
-  <router-outlet></router-outlet>
 </div>
 <ng-template #loading>
   <div class="container">

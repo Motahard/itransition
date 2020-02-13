@@ -1,25 +1,31 @@
 <div class="card text-break">
   <div
-    class="card-header bg-dark text-white"
+    class="card-header bg-dark text-white text-center text-break"
     style="cursor: pointer;"
-    [routerLink]="'company/' + company._id"
+    [routerLink]="'company/' + company._id + '/news'"
   >
-    {{ company.title }}
+    <h4 class="font-weight-light">
+      {{ company.title }}
+    </h4>
   </div>
-  <div class="card-title pl-2 mb-0 pt-2">
-    <div class="badge badge-danger text-wrap" style="width: 6rem;">
-      {{ company.category }}
-    </div>
-    <div class="mt-2">
-      <span class="text-primary" *ngIf="company.tags">
-        {{ company.tags }}
-      </span>
+  <div class="mt-2">
+      <div class="pl-2 text-primary text-break">
+        <span class="text-muted">Category: </span>
+        <span class="lead">
+          {{ company.category }}
+        </span>
+      </div>
+  </div>
+  <div class="mb-0 pt-2" *ngIf="company.tags">
+    <div class="mx-0">
+        <span class="ml-2 text-muted">Tags: </span>
+        <span *ngFor="let tag of company.tags" class="badge ml-1 badge-danger">{{ tag }}</span>
     </div>
   </div>
   <hr class="my-1" />
 
   <div class="card-body py-2">
-    <p class="text-justify">{{ company.description.slice(0, 64) }} ....</p>
+    <p class="text-justify text-break">{{ company.description.slice(0, 64) }} ....</p>
   </div>
   <div class="card-footer">
     <p class="text-muted">

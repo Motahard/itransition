@@ -22,9 +22,11 @@ const companySchema = new mongoose.Schema({
     min: 6,
     max: 64
   },
-  tags: {
-    type: String
-  },
+  tags: [
+    {
+      type: String
+    }
+  ],
   amount: {
     type: Number,
     required: true
@@ -49,6 +51,14 @@ const companySchema = new mongoose.Schema({
       name: String,
       price: Number,
       description: String
+    }
+  ],
+  comments: [
+    {
+      message: String,
+      username: String,
+      likes: Number,
+      userId: String,
     }
   ]
 });

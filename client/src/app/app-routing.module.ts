@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: "create-company/:id", component: CreateCompanyPageComponent },
   { path: "company/:id", component: CompanyPageComponent, children: companyRoutes },
   { path: "profile/:id", component: ProfilePageComponent },
-  { path: "donation/:id/:count", component: DonationPageComponent },
+  { path: "company/:id/donation/:count", component: DonationPageComponent },
   { path: "404", component: NotFoundPageComponent },
   { path: "**", redirectTo: "/404" }
 ];

@@ -58,4 +58,55 @@ module.exports.updateUserData = async function(req, res) {
             message: 'update user error'
         })
     }
-}
+};
+
+module.exports.addUserLike = async function(req, res) {
+    const queryId = req.user._id;
+    const companyId = req.body.companyId;
+    const commentId = req.body.commentId;
+    try {
+        const user = await User.findById(queryId);
+        const company = await Company.findById(companyId);
+        let consistCommentId = false;
+        user.likes.forEach(like => {
+            if (like == commentId) {
+                consistCommentId = true;
+            }
+        });
+
+
+        if(!consistCommentId) {
+            user.likes.push(commentId);
+            company.comments.forEach(comment => {
+                if(comment._id == commentId) {
+                    comment.likes = comment.likes + 1;
+                }
+            });
+            const savedUser = await user.save();
+            const savedCompany = await company.save();
+            const savedCompanyMessages = savedCompany.comments;
+            res.send({
+                savedUser,
+                savedCompanyMessages
+            });
+        } else {
+            user.likes.pull(commentId);
+            company.comments.forEach(comment => {
+                if(comment._id == commentId) {
+                    comment.likes = comment.likes - 1;
+                }
+            })
+            const savedUser = await user.save();
+            const savedCompany = await company.save();
+            const savedCompanyMessages = savedCompany.comments;
+            res.send({
+                savedUser,
+                savedCompanyMessages
+            });
+        }
+    } catch (error) {
+        res.status(400).send({
+            message: 'add like user error'
+        })
+    }
+};

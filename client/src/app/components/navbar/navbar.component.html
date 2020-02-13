@@ -1,29 +1,44 @@
 <nav class="navbar navbar-dark bg-dark">
-  <ul class="navbar-nav mx-auto flex-row" *ngIf="!user; else userAuthenticated">
+  <ul class="navbar-nav flex-row" *ngIf="!user; else userAuthenticated">
     <li class="nav-item mr-2">
-      <a class="nav-link" routerLink="/">Home</a>
+      <a class="nav-link"
+         (click)="activeLink='home'"
+         [class.active]="activeLink==='home'"
+         routerLink="/">Home</a>
     </li>
     <li class="nav-item mr-2">
-      <a class="nav-link" routerLink="/login">Login</a>
+      <a class="nav-link"
+         (click)="activeLink='login'"
+         [class.active]="activeLink==='login'"
+         routerLink="/login">Login</a>
     </li>
     <li class="nav-item mr-2">
-      <a class="nav-link" routerLink="/register">Register</a>
+      <a class="nav-link"
+         (click)="activeLink='register'"
+         [class.active]="activeLink==='register'"
+         routerLink="/register">Register</a>
     </li>
   </ul>
   <ng-template #userAuthenticated>
-    <ul class="navbar-nav mx-auto flex-row">
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item mr-2">
+          <a class="nav-link"
+             (click)="activeLink='home'"
+             [class.active]="activeLink==='home'"
+             routerLink="/">Home</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link"
+             (click)="activeLink='profile'"
+             [class.active]="activeLink==='profile'"
+             [routerLink]="'/profile/'+user.id">Profile</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" routerLink="/" (click)="onLogoutClick()">Logout</a>
+        </li>
+      </ul>
       <span class="navbar-brand mb-0 h1 text-muted d-md-block d-none"
-        >Hello, {{ user.name }}</span
+      >Hello, {{ user.name }}</span
       >
-      <li class="nav-item active mr-2">
-        <a class="nav-link" routerLink="/">Home</a>
-      </li>
-      <li class="nav-item active mr-2">
-        <a class="nav-link" [routerLink]="'/profile/'+user.id">Profile</a>
-      </li>
-      <li class="nav-item active mr-2">
-        <a class="nav-link" routerLink="/" (click)="onLogoutClick()">Logout</a>
-      </li>
-    </ul>
   </ng-template>
 </nav>

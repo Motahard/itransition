@@ -18,8 +18,11 @@ export class CreateCompanyPageComponent implements OnInit, OnDestroy {
   userSub$: Subscription;
   user: User;
   id: string;
+  currentDate: Date;
 
   constructor(private companiesService: CompaniesService, private authService: AuthService, private router: Router) {
+    this.currentDate = new Date();
+    this.currentDate.setDate(this.currentDate.getDate() + 1);
     this.userSub$ = this.authService.user.subscribe(user => {
       if (user) {
         this.user = user;
@@ -41,7 +44,7 @@ export class CreateCompanyPageComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(64)
       ]),
-      category: new FormControl("services", Validators.required),
+      category: new FormControl("Services", Validators.required),
       tags: new FormControl(""),
       amount: new FormControl("", Validators.required),
       dateEnd: new FormControl("", Validators.required),
@@ -73,21 +76,20 @@ export class CreateCompanyPageComponent implements OnInit, OnDestroy {
   onSubmit() {
     const formData = { ...this.form.value };
     const yLink = formData.yLink;
+    const tagsArr = formData.tags.trim().split(",");
     let slicedLink;
 
     if (yLink) {
       slicedLink = yLink.slice(yLink.indexOf("=") + 1);
     }
-    if (!this.id) {
 
-    }
 
     this.company = {
       owner: this.id,
       title: formData.title,
       description: formData.description,
       category: formData.category,
-      tags: formData.tags,
+      tags: tagsArr,
       amount: +formData.amount,
       dateStart: Date.now(),
       dateEnd: new Date(formData.dateEnd).getTime(),

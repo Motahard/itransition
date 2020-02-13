@@ -69,7 +69,9 @@ module.exports.getUser = async function(req, res) {
   const response = {
     id: user._id,
     name: user.name,
-    email: user.email
+    email: user.email,
+    likes: user.likes,
+    permission: user.permission
   };
   try {
     res.status(200).send(response);
