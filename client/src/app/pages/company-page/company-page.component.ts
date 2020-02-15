@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { CompaniesService } from "src/app/services/companies.service";
 import { Subscription } from "rxjs";
 import { Company } from "src/app/models/company.class";
@@ -22,7 +22,12 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private companiesService: CompaniesService
   ) {
-    this.showNews = true;
+    const show = activatedRoute.snapshot.children[0] ? activatedRoute.snapshot.children[0].url[0].path : undefined;
+    if (show && show === "comments") {
+      this.showComments = true;
+    } else if (show && show === "news") {
+      this.showNews = true;
+    }
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
     this.companySub$ = this.companiesService.company.subscribe(company => {
       this.company = company;

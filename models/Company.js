@@ -58,7 +58,16 @@ const companySchema = new mongoose.Schema({
       message: String,
       username: String,
       likes: Number,
+      date: Number,
       userId: String,
+    }
+  ],
+  news: [
+    {
+      title: String,
+      description: String,
+      imgURL: String,
+      date: Number
     }
   ]
 });

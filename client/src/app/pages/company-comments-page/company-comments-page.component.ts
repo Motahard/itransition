@@ -40,7 +40,7 @@ export class CompanyCommentsPageComponent implements OnInit, OnDestroy {
     this.idCompany = this.aRoute.parent.snapshot.paramMap.get("id");
   }
 
-  sendMessage() {
+  sendMessage(): void {
     if (!this.user) {
       return;
     }
@@ -48,6 +48,7 @@ export class CompanyCommentsPageComponent implements OnInit, OnDestroy {
       userId: this.user.id,
       username: this.user.name,
       message: this.form.value.message,
+      date: Date.now(),
       likes: 0
     };
     this.companiesService.addCompanyMessage(this.idCompany, message);
@@ -55,6 +56,9 @@ export class CompanyCommentsPageComponent implements OnInit, OnDestroy {
   }
 
   onLikeClick(commentId) {
+    if (!this.user) {
+      return;
+    }
     this.userService.commentLikeUser(commentId, this.idCompany);
   }
 

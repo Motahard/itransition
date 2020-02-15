@@ -1,1 +1,17 @@
-<p>company-news-page works!</p>
+<div class="px-5">
+  <button *ngIf="canCreate" class="btn btn-outline-dark" (click)="showForm=!showForm">
+    Add news
+  </button>
+  <div *ngIf="showForm">
+    <form [formGroup]="form">
+      <input type="text" class="form-control" formControlName="title" placeholder="Enter title...">
+      <textarea class="form-control" formControlName="description" placeholder="Enter description..."></textarea>
+      <ngx-file-drop
+        dropZoneLabel="Drop files here"
+        (onFileDrop)="dropped($event)"
+        (onFileOver)="fileOver($event)"
+        (onFileLeave)="fileLeave($event)"
+      ></ngx-file-drop>
+    </form>
+  </div>
+</div>

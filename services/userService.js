@@ -50,7 +50,9 @@ module.exports.updateUserData = async function(req, res) {
         const updatedUser = {
             id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            likes: user.likes,
+            permission: user.permission
         }
         res.send(updatedUser);
     } catch (error) {

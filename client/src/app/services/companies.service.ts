@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {BehaviorSubject } from "rxjs";
-import {Company, CompanyMessage} from "../models/company.class";
+import {Company, CompanyMessage, CompanyNews} from "../models/company.class";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import {WebSocketSubject} from "rxjs/internal-compatibility";
 
@@ -12,11 +12,13 @@ export class CompaniesService {
   company: BehaviorSubject<Company>;
   companyMessages: BehaviorSubject<CompanyMessage[]>;
   socket$: WebSocketSubject<CompanyMessage>;
+  companyNews: BehaviorSubject<CompanyNews[]>;
 
   constructor(private http: HttpClient) {
     this.companies = new BehaviorSubject<Company[]>([]);
     this.company = new BehaviorSubject<Company>(null);
     this.companyMessages = new BehaviorSubject<CompanyMessage[]>([]);
+    this.companyNews = new BehaviorSubject<CompanyNews[]>([]);
     this.socket$ = new WebSocketSubject("ws://localhost:5000/api/company/messages");
     this.socket$.subscribe(message => {
       this.companyMessages.next(this.companyMessages.getValue().concat([message]));
@@ -48,6 +50,7 @@ export class CompaniesService {
       .subscribe(company => {
         this.company.next(company);
         this.companyMessages.next(company.comments);
+        this.companyNews.next(company.news);
       }, err => {
         console.log(err);
       }, () => subscription.unsubscribe());

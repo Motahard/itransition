@@ -14,6 +14,7 @@ export interface Company {
   youtubeLink?: string;
   bonuses?: Bonuse[];
   comments?: CompanyMessage[];
+  news?: CompanyNews[];
 }
 
 interface Bonuse {
@@ -27,5 +28,14 @@ export interface CompanyMessage {
   username: string;
   userId: string;
   message: string;
+  date: number;
   likes: number;
+}
+
+export interface CompanyNews {
+  _id?: string;
+  title: string;
+  description: string;
+  date: number;
+  imgURL?: string;
 }

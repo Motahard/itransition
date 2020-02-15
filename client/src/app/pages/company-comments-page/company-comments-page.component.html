@@ -1,25 +1,32 @@
 <div class="px-5">
-    <form class="input-group mb-3" [formGroup]="form">
+    <div *ngIf="companyMessages">
+      <div class="card" *ngFor="let message of companyMessages">
+        <div class="row p-2">
+          <div class="col-10">
+            <div>
+              <h5 class="d-inline mr-2">{{message.username}}</h5><span class="text-muted">{{message.date|date:"dd.MM.yyyy HH:mm"}}</span>
+            </div>
+            <p class="mb-0">{{message.message}}</p>
+          </div>
+          <div class="col-2">
+            <div class="flex-column text-center">
+              <img [src]="user && user.likes.includes(message._id) ? '../../../assets/like.svg': '../../../assets/nolike.svg'"
+                      (click)="onLikeClick(message._id)"
+                    height="20px"
+              />
+              <p class="mb-0">
+                {{message.likes}}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <form *ngIf="user" class="input-group mb-3" [formGroup]="form">
       <input type="text" class="form-control" formControlName="message" placeholder="Enter message...">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="submit" [disabled]="!form.valid" (click)="sendMessage()">Send</button>
       </div>
     </form>
-    <div *ngIf="companyMessages">
-      <div class="card" *ngFor="let message of companyMessages">
-        <div class="row">
-          <div class="col-10">
-            <h5>{{message.username}}</h5>
-            <p>{{message.message}}</p>
-          </div>
-          <div class="col-2">
-            <button class="btn"
-                    [class.bg-danger]="user.likes.includes(message._id)"
-                    (click)="onLikeClick(message._id)">
-              {{message.likes}}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 </div>
