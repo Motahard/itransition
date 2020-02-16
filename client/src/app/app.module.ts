@@ -3,8 +3,11 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AppRoutingModule } from "./app-routing.module";
 import { NgxFileDropModule } from "ngx-file-drop";
+import "firebase/storage";
 // import { MarkdownModule } from "ngx-markdown";
 
 import { AppComponent } from "./app.component";
@@ -26,6 +29,8 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
 import { DonationPageComponent } from "./pages/donation-page/donation-page.component";
 import { CompanyCommentsPageComponent } from "./pages/company-comments-page/company-comments-page.component";
 import { CompanyNewsPageComponent } from "./pages/company-news-page/company-news-page.component";
+import {environment} from "../environments/environment";
+import { NewsItemComponent } from './components/news-item/news-item.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +50,8 @@ import { CompanyNewsPageComponent } from "./pages/company-news-page/company-news
     NotFoundPageComponent,
     DonationPageComponent,
     CompanyCommentsPageComponent,
-    CompanyNewsPageComponent
+    CompanyNewsPageComponent,
+    NewsItemComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +61,8 @@ import { CompanyNewsPageComponent } from "./pages/company-news-page/company-news
     HttpClientModule,
     ReactiveFormsModule,
     NgxFileDropModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
     // MarkdownModule
   ],
   providers: [

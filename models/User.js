@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     min: 6
   },
   permission: Number,
-  likes: [String]
+  likes: [String],
+  rates: [{
+    rate: Number,
+    company: String
+  }]
 });
 
 module.exports = mongoose.model("User", userSchema);

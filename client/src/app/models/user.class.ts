@@ -4,6 +4,12 @@ export interface User {
   email: string;
   likes?: string[];
   permission?: number;
+  rates?: Rate[];
+}
+
+export interface Rate {
+  company: string;
+  rate: number;
 }
 
 export interface UserSettings {

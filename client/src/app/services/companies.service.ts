@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
-import {BehaviorSubject } from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Company, CompanyMessage, CompanyNews} from "../models/company.class";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import {WebSocketSubject} from "rxjs/internal-compatibility";
+import * as uuid from "uuid/v4";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +16,7 @@ export class CompaniesService {
   socket$: WebSocketSubject<CompanyMessage>;
   companyNews: BehaviorSubject<CompanyNews[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     this.companies = new BehaviorSubject<Company[]>([]);
     this.company = new BehaviorSubject<Company>(null);
     this.companyMessages = new BehaviorSubject<CompanyMessage[]>([]);
@@ -70,6 +72,69 @@ export class CompaniesService {
   public getCompanies(): void {
     const subscription = this.http.get<Company[]>("/api/companies").subscribe(companies => {
       this.companies.next(companies);
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
+  }
+
+  public addCompanyNews(idCompany, news) {
+    const params = new HttpParams().set("idCompany", idCompany);
+    const subscription = this.http.post<CompanyNews>("/api/company/news", news, {
+      params
+    }).subscribe(res => {
+      this.companyNews.next(this.companyNews.getValue().concat([res]));
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
+  }
+
+  public deleteNews(idCompany, idNews: string) {
+    const params = new HttpParams().append("idNews", idNews).append("idCompany", idCompany);
+    const subscription = this.http.delete<CompanyNews>("/api/company/news", {
+      params
+    }).subscribe(res => {
+      this.companyNews.next(this.companyNews.getValue().filter(news => news._id !== idNews));
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
+  }
+
+  public generatePath(file): string {
+    return "news/" + `${uuid()}/` + file.name;
+  }
+
+  public updateCompanyNews(idCompany: string, id: string, updatedNews) {
+    const params = new HttpParams()
+      .append("idCompany", idCompany)
+      .append("idNews", id);
+    const subscription = this.http.put<CompanyNews>("/api/company/news", updatedNews, {
+      params
+    }).subscribe(res => {
+      const next = this.companyNews.getValue().map(news => {
+        if (news._id === res[0]._id) {
+          return res[0];
+        }
+        return news;
+      });
+      this.companyNews.next(next);
+    }, err => {
+      console.log(err);
+    }, () => subscription.unsubscribe());
+  }
+
+  public addNewRate(rate: string, companyId: string, userId: string) {
+    const params = new HttpParams()
+      .append("companyId", companyId)
+      .append("userId", userId);
+    const subscription = this.http.post("/api/company/rates", {rate}, {
+      params
+    }).subscribe(res => {
+      // @ts-ignore
+      this.company.next(res.savedCompany);
+      const user = this.authService.user.getValue();
+      // @ts-ignore
+      user.rates = res.rates;
+      this.authService.user.next(user);
     }, err => {
       console.log(err);
     }, () => subscription.unsubscribe());

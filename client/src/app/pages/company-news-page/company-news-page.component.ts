@@ -1,13 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AngularFireStorage} from "@angular/fire/storage";
+import "firebase/storage";
+import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {AuthService} from "../../services/auth.service";
 import {CompaniesService} from "../../services/companies.service";
 import {User} from "../../models/user.class";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Company, CompanyNews} from "../../models/company.class";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {finalize} from "rxjs/operators";
 
 @Component({
   selector: "app-company-news-page",
@@ -15,6 +17,9 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   styleUrls: ["./company-news-page.component.scss"]
 })
 export class CompanyNewsPageComponent implements OnInit {
+  uploadPercent: Observable<number>;
+  downloadURL: string;
+  imagePath: string;
   idCompany: string;
   user: User;
   userSub$: Subscription;
@@ -24,13 +29,14 @@ export class CompanyNewsPageComponent implements OnInit {
   companyNewsSub$: Subscription;
   canCreate: boolean;
   showForm: boolean;
+  loadingImage: boolean;
   form: FormGroup;
   public files: NgxFileDropEntry[] = [];
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private companiesService: CompaniesService,
-              private http: HttpClient
+              private storage: AngularFireStorage
   ) {
     this.form = new FormGroup({
       title: new FormControl("", [Validators.required, Validators.minLength(2)]),
@@ -58,22 +64,44 @@ export class CompanyNewsPageComponent implements OnInit {
     this.files = files;
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
+        this.loadingImage = true;
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          console.log(file);
+          this.imagePath = this.companiesService.generatePath(file);
+          const fileRef = this.storage.ref(this.imagePath);
+          const task = this.storage.upload(this.imagePath, file);
+          this.uploadPercent = task.percentageChanges();
+          const subscription = task.snapshotChanges().pipe(
+            finalize(() => {
+              const sub = fileRef.getDownloadURL().subscribe(res => this.downloadURL = res,
+                  err => console.log(err),
+                () => {
+                  this.loadingImage = false;
+                  sub.unsubscribe();
+                });
+        })
+          ).subscribe(res => {},
+              err => console.log(err),
+            () => subscription.unsubscribe());
         });
-      } else {
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(fileEntry);
       }
     }
   }
 
-  public fileOver(event) {
-    console.log(event);
-  }
-
-  public fileLeave(event) {
-    console.log(event);
+  public onSubmit() {
+    const formData = this.form.value;
+    const news: CompanyNews = {
+      title: formData.title,
+      description: formData.description,
+      date: Date.now(),
+      img: {
+        URL: this.downloadURL,
+        path: this.imagePath
+      }
+      };
+    this.companiesService.addCompanyNews(this.idCompany, news);
+    this.form.reset();
+    this.downloadURL = null;
+    this.showForm = false;
   }
 }

@@ -52,7 +52,8 @@ module.exports.updateUserData = async function(req, res) {
             name: user.name,
             email: user.email,
             likes: user.likes,
-            permission: user.permission
+            permission: user.permission,
+            rates: user.rates
         }
         res.send(updatedUser);
     } catch (error) {

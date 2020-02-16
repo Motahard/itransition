@@ -1,0 +1,48 @@
+<div *ngIf="!edit; else onEditForm" class="card">
+  <img *ngIf="news.img && news.img.URL"
+       [src]="news.img.URL"
+       alt="picture news"
+       class="card-img-top">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">{{news.title}}</h5>
+      <small class="text-muted">{{news.date | date: "dd.MM.yyyy HH:mm"}}</small>
+    </div>
+    <p class="text-justify text-break card-text">{{news.description}}</p>
+    <div *ngIf="canCreate" >
+      <button class="btn btn-info p-1 mr-1" (click)="edit=true">edit</button>
+      <button class="btn btn-danger p-1" (click)="onDeleteNews(news._id)">delete</button>
+    </div>
+  </div>
+</div>
+<ng-template #onEditForm>
+  <div class="card p-4">
+    <form [formGroup]="form" (ngSubmit)="onSave()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text"
+               id="title"
+               placeholder="New title..."
+               formControlName="title"
+               class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="text" id="description"
+                  formControlName="description"
+                  placeholder="New description..."
+                  rows="15"
+                  class="form-control"></textarea>
+      </div>
+      <div *ngIf="loadingImage" class="text-center mb-2">
+        <p class="lead">Loading...</p>
+      </div>
+      <ngx-file-drop
+        *ngIf="!loadingImage"
+        dropZoneLabel="Drop files here"
+        (onFileDrop)="dropped($event)"
+      ></ngx-file-drop>
+      <button class="btn btn-block btn-dark mt-3">Save</button>
+    </form>
+  </div>
+</ng-template>

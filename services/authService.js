@@ -71,7 +71,8 @@ module.exports.getUser = async function(req, res) {
     name: user.name,
     email: user.email,
     likes: user.likes,
-    permission: user.permission
+    permission: user.permission,
+    rates: user.rates
   };
   try {
     res.status(200).send(response);

@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import { CompaniesService } from "src/app/services/companies.service";
 import { Subscription } from "rxjs";
 import { Company } from "src/app/models/company.class";
+import {User} from "../../models/user.class";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: "app-company-page",
@@ -12,6 +14,9 @@ import { Company } from "src/app/models/company.class";
 export class CompanyPageComponent implements OnInit, OnDestroy {
   public id: string;
   private companySub$: Subscription;
+  private userSub$: Subscription;
+  public user: User;
+  public userLikeRate: number;
   public company: Company;
   public daysRemain: number;
   public amount: string;
@@ -20,7 +25,8 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private companiesService: CompaniesService
+    private companiesService: CompaniesService,
+    private authService: AuthService
   ) {
     const show = activatedRoute.snapshot.children[0] ? activatedRoute.snapshot.children[0].url[0].path : undefined;
     if (show && show === "comments") {
@@ -36,10 +42,25 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
         this.daysRemain = this.companiesService.getRemainTime(company);
       }
     });
+    this.userSub$ = this.authService.user.subscribe(user => {
+      this.user = user;
+      if (this.user) {
+        this.user.rates.forEach(rate => {
+          if (rate.company === this.id) {
+            this.userLikeRate = rate.rate;
+          }
+        });
+      }
+    });
   }
 
   ngOnInit() {
     this.companiesService.getCompany(this.id);
+  }
+
+  onStarClick(event) {
+    const rate = event.target.getAttribute("name");
+    this.companiesService.addNewRate(rate, this.id, this.user.id);
   }
 
   ngOnDestroy() {

@@ -5,7 +5,10 @@ const {
   getCompanies,
   addCompany,
   getCompany,
-  addMessage
+    addNews,
+    deleteNews,
+    updateNews,
+    addCompanyRate
 } = require("../services/companiesService");
 const expressWs = require("../index");
 
@@ -23,6 +26,10 @@ router.post("/company/messages", verifyToken, async function(req, res) {
         res.status(400).send('Error while trying to add new comment');
       }
 });
+router.post("/company/news", verifyToken, addNews);
+router.post("/company/rates", verifyToken, addCompanyRate);
+router.delete("/company/news", verifyToken, deleteNews);
+router.put("/company/news", verifyToken, updateNews);
 router.ws("/company/messages", function(ws, req, next) {
   ws.on("message", async function(msg) {
     expressWs.getWss().clients.forEach(client => {

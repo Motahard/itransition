@@ -24,13 +24,41 @@
             {{ company.dateStart |date }}
           </span>
           </div>
+          <div class="d-flex">
+            <span class="mx-2 text-muted">Rates: </span>
+            <div class="d-flex">
+              <div class="rating d-flex flex-row-reverse">
+                <span (click)="onStarClick($event)"
+                      [class.clicked]="userLikeRate===5"
+                      class="h4"
+                      name="5">☆</span>
+                <span (click)="onStarClick($event)"
+                      [class.clicked]="userLikeRate===4"
+                      class="h4" name="4">☆</span>
+                <span (click)="onStarClick($event)"
+                      [class.clicked]="userLikeRate===3"
+                      class="h4" name="3">☆</span>
+                <span (click)="onStarClick($event)"
+                      [class.clicked]="userLikeRate===2"
+                      class="h4" name="2">☆</span>
+                <span (click)="onStarClick($event)"
+                      [class.clicked]="userLikeRate===1"
+                      class="h4" name="1">☆</span>
+              </div>
+              <div class="ml-2">
+                 <span *ngIf="company.rates.rate">
+                {{ (company.rates.rate / company.rates.count).toFixed(2) }}
+              </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <hr class="m-0" />
     <div class="card-body px-5 py-3">
       <h3 class="text-center">Description</h3>
-      <p class="text-justify">
+      <p class="text-justify text-break">
         {{ company.description }}
       </p>
 

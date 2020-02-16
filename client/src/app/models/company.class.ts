@@ -15,6 +15,13 @@ export interface Company {
   bonuses?: Bonuse[];
   comments?: CompanyMessage[];
   news?: CompanyNews[];
+  rates?: Rate;
+}
+
+interface Rate {
+  _id?: string;
+  count: number;
+  rate: number;
 }
 
 interface Bonuse {
@@ -37,5 +44,10 @@ export interface CompanyNews {
   title: string;
   description: string;
   date: number;
-  imgURL?: string;
+  img?: Image;
+}
+
+interface Image {
+  URL: string;
+  path: string;
 }
