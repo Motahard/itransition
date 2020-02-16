@@ -85,7 +85,15 @@ module.exports.addUserLike = async function(req, res) {
                     comment.likes = comment.likes + 1;
                 }
             });
-            const savedUser = await user.save();
+            const savedU = await user.save();
+            const savedUser = {
+                id: savedU._id,
+                name: savedU.name,
+                email: savedU.email,
+                permission: savedU.permission,
+                likes: savedU.likes,
+                rates: savedU.rates
+            };
             const savedCompany = await company.save();
             const savedCompanyMessages = savedCompany.comments;
             res.send({

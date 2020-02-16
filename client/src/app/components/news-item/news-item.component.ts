@@ -66,7 +66,7 @@ export class NewsItemComponent implements OnInit {
       };
     }
     this.companiesService.updateCompanyNews(this.idCompany, this.news._id, updatedNews);
-    console.log('update', this.news)
+    console.log("update", this.news)
     this.edit = false;
     this.downloadURL = null;
     this.imagePath = null;

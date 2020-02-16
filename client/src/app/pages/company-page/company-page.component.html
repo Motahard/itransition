@@ -30,20 +30,20 @@
               <div class="rating d-flex flex-row-reverse">
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===5"
-                      class="h4"
+                      class="h4 pointer"
                       name="5">☆</span>
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===4"
-                      class="h4" name="4">☆</span>
+                      class="h4 pointer" name="4">☆</span>
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===3"
-                      class="h4" name="3">☆</span>
+                      class="h4 pointer" name="3">☆</span>
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===2"
-                      class="h4" name="2">☆</span>
+                      class="h4 pointer" name="2">☆</span>
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===1"
-                      class="h4" name="1">☆</span>
+                      class="h4 pointer" name="1">☆</span>
               </div>
               <div class="ml-2">
                  <span *ngIf="company.rates.rate">

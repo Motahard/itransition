@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AngularFireStorage} from "@angular/fire/storage";
@@ -7,7 +7,7 @@ import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {AuthService} from "../../services/auth.service";
 import {CompaniesService} from "../../services/companies.service";
 import {User} from "../../models/user.class";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Company, CompanyNews} from "../../models/company.class";
 import {finalize} from "rxjs/operators";
 
@@ -16,8 +16,7 @@ import {finalize} from "rxjs/operators";
   templateUrl: "./company-news-page.component.html",
   styleUrls: ["./company-news-page.component.scss"]
 })
-export class CompanyNewsPageComponent implements OnInit {
-  uploadPercent: Observable<number>;
+export class CompanyNewsPageComponent implements OnInit, OnDestroy {
   downloadURL: string;
   imagePath: string;
   idCompany: string;
@@ -70,7 +69,6 @@ export class CompanyNewsPageComponent implements OnInit {
           this.imagePath = this.companiesService.generatePath(file);
           const fileRef = this.storage.ref(this.imagePath);
           const task = this.storage.upload(this.imagePath, file);
-          this.uploadPercent = task.percentageChanges();
           const subscription = task.snapshotChanges().pipe(
             finalize(() => {
               const sub = fileRef.getDownloadURL().subscribe(res => this.downloadURL = res,
@@ -103,5 +101,11 @@ export class CompanyNewsPageComponent implements OnInit {
     this.form.reset();
     this.downloadURL = null;
     this.showForm = false;
+  }
+
+  ngOnDestroy(): void {
+    this.userSub$.unsubscribe();
+    this.companySub$.unsubscribe();
+    this.companyNewsSub$.unsubscribe();
   }
 }
