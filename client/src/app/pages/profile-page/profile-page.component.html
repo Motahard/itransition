@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div *ngIf="user; else loading" class="container my-4">
     <div class="row">
       <div class="col-md-6">
         <h2>Profile Information</h2>
@@ -14,7 +14,7 @@
               <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
               <input type="text" class="form-control" formControlName="name" id="name" placeholder="Edit name...">
             </div>
-            <div>
+            <div *ngIf="canCreate">
               <p class="mb-0">Choose Theme
                 <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px"> :
               </p>
@@ -25,31 +25,56 @@
                 <label class="form-check-label" for="light">Light Theme</label>
               </div>
             </div>
-            <label for="language">Choose Language</label>
-            <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
-            <select id="language" formControlName="language" class="custom-select mt-2">
-              <option value="rus">Russian</option>
-              <option [selected]="true" value="eng">English</option>
-            </select>
-            <button class="btn btn-block btn-dark mt-3" [disabled]="!form.valid">Update</button>
+            <div *ngIf="canCreate">
+              <label for="language">Choose Language</label>
+              <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
+              <select id="language" formControlName="language" class="custom-select mt-2">
+                <option value="rus">Russian</option>
+                <option [selected]="true" value="eng">English</option>
+              </select>
+            </div>
+            <button class="btn btn-block btn-dark mt-3" [disabled]="!form.valid || !canCreate">Update</button>
           </form>
         </div>
       </div>
-      <div class="col-md-6">
-        <h2>Created companies</h2>
-        <div *ngIf="companies.length > 0; else noCompanies" class="card p-1">
-          <div *ngFor="let company of companies" class="card-body d-inline-flex align-items-center justify-content-between">
-            <a [routerLink]="'/company/'+company._id" class="py-2 mb-0 px-5">{{ company.title }}</a>
-            <div>
-              <button class="btn btn-outline-info mr-2">Edit</button>
-              <button class="btn btn-outline-danger" (click)="onDelete(company._id)">Delete</button>
-            </div>
+      <div class="col-md-6 my-3 my-lg-0 my-md-0">
+        <h2>Your Bonuses</h2>
+        <div *ngIf="user && user.bonuses && user.bonuses.length > 0; else noBonuses" class="card p-1">
+          <div *ngFor="let bonuse of bonuses; let i = index" class="card-body d-inline-flex align-items-center justify-content-between">
+            <h5 class="text-center"><span class="text-muted">Name:</span>  {{bonuse.name}}</h5>
+            <p class="lead"><span class="text-muted">Count:</span>  {{user.bonuses[i].count}}</p>
           </div>
         </div>
-        <ng-template #noCompanies>
-          <p class='lead'>You don`t create any company yet!</p>
-        </ng-template>
-        <button class="btn btn-block btn-outline-dark mt-2" (click)="createUserCompany()">Create now!</button>
       </div>
+      <ng-template #noBonuses>
+        <p class='lead'>You don`t get any bonuse yet!</p>
+      </ng-template>
     </div>
+  <h2 class="text-center mt-5">Your Companies</h2>
+  <table *ngIf="companies.length > 0; else noCompanies" class="table mt-3">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Company Name</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies; let idx = index">
+        <th scope="row">{{idx}}</th>
+        <td><a [routerLink]="'/company/'+company._id" class="py-2 mb-0 px-5">{{ company.title }}</a></td>
+        <td *ngIf="canCreate"><button class="btn btn-outline-dark mr-2" [routerLink]="'/company/'+company._id">Edit</button></td>
+        <td *ngIf="canCreate"><button class="btn btn-dark" (click)="onDelete(company._id)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button *ngIf="canCreate" class="btn btn-block btn-outline-dark mt-2" (click)="createUserCompany()">Create now!</button>
+  <div class="mt-3">
+    <ng-template #noCompanies>
+      <p class='lead'>You don`t create any company yet!</p>
+    </ng-template>
+  </div>
 </div>
+
+<ng-template #loading>
+  Loading...
+</ng-template>

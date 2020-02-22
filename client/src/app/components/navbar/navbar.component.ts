@@ -11,10 +11,8 @@ import { User } from "../../models/user.class";
 export class NavbarComponent implements OnDestroy {
   user: User;
   userSub$: Subscription;
-  activeLink: string;
 
   constructor(private authService: AuthService) {
-    this.activeLink = "home";
     this.userSub$ = this.authService.user.subscribe(user => {
       this.user = user;
     });

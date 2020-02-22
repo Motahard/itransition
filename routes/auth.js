@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { check } = require("express-validator");
-const { createUser, authUser, getUser } = require("../services/authService");
+const { createUser, authUser, getUser, getUserById } = require("../services/authService");
 const verifyToken = require("../services/verifyToken");
 
 router.post(
@@ -33,5 +33,6 @@ router.post(
 );
 
 router.get("/user", verifyToken, getUser);
+router.get("/user/id", getUserById);
 
 module.exports = router;

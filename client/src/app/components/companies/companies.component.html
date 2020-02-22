@@ -1,5 +1,39 @@
 <div class="container mt-3">
-  <app-search></app-search>
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter company name, tag, or some text..."
+      [(ngModel)]="searchStr"
+      [ngModelOptions]="{standalone: true}"
+    />
+    <div class="input-group-append">
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="onSearchClick()"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="mb-0 pt-2" *ngIf="tags">
+      <div class="mx-0">
+        <span class="ml-2 text-muted">Tags: </span>
+        <span *ngFor="let tag of tags"
+              (click)="searchStr = searchStr + tag"
+              style="cursor: pointer"
+              class="badge ml-1 badge-danger">{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3 text-center">
+    <span>Sort by:</span>
+    <span class="btn btn-outline-dark btn-sm py-0 ml-2" (click)="sortBy('rate')">Rate</span>
+    <span class="btn btn-outline-dark btn-sm py-0 ml-2" (click)="sortBy('new')">New</span>
+    <span class="btn btn-outline-dark btn-sm py-0 ml-2" (click)="sortBy('old')">Old</span>
+  </div>
   <div class="row">
     <div class="col-md-4 mb-sm-2 mb-2" *ngFor="let company of companies">
       <app-company-item [company]="company"></app-company-item>

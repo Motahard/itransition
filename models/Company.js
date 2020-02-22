@@ -76,7 +76,13 @@ const companySchema = new mongoose.Schema({
   rates: {
     count: Number,
     rate: Number
-  }
+  },
+  gallery: [
+    {
+      url: String,
+      path: String
+    }
+  ]
 });
 
 module.exports = mongoose.model("Company", companySchema);

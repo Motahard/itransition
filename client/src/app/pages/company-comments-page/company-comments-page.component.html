@@ -1,6 +1,5 @@
-<div class="px-5">
-    <div *ngIf="companyMessages">
-      <div class="card" *ngFor="let message of companyMessages">
+ <div class="m-0" *ngIf="companyMessages">
+      <div class="card my-3 mx-2" *ngFor="let message of companyMessages">
         <div class="row p-2">
           <div class="col-10">
             <div>
@@ -29,4 +28,3 @@
         <button class="btn btn-outline-secondary" type="submit" [disabled]="!form.valid" (click)="sendMessage()">Send</button>
       </div>
     </form>
-</div>

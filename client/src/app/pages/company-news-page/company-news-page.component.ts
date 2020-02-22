@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AngularFireStorage} from "@angular/fire/storage";
@@ -16,7 +16,7 @@ import {finalize} from "rxjs/operators";
   templateUrl: "./company-news-page.component.html",
   styleUrls: ["./company-news-page.component.scss"]
 })
-export class CompanyNewsPageComponent implements OnInit, OnDestroy {
+export class CompanyNewsPageComponent implements OnDestroy {
   downloadURL: string;
   imagePath: string;
   idCompany: string;
@@ -29,6 +29,7 @@ export class CompanyNewsPageComponent implements OnInit, OnDestroy {
   canCreate: boolean;
   showForm: boolean;
   loadingImage: boolean;
+  droppedFile: boolean;
   form: FormGroup;
   public files: NgxFileDropEntry[] = [];
 
@@ -42,21 +43,25 @@ export class CompanyNewsPageComponent implements OnInit, OnDestroy {
       description: new FormControl("", [Validators.required, Validators.minLength(4)])
     });
     this.idCompany = this.route.parent.snapshot.paramMap.get("id");
-    this.userSub$ = this.authService.user.subscribe(user => {
-      this.user = user;
-    });
     this.companySub$ = this.companiesService.company.subscribe(company => {
       this.company = company;
+      if (this.user && this.company) {
+        if (this.company.owner === this.user.id || this.user.permission === 2) {
+          this.canCreate = true;
+        }
+      }
+    });
+    this.userSub$ = this.authService.user.subscribe(user => {
+      this.user = user;
+      if (this.user && this.company) {
+        if (this.company.owner === this.user.id || this.user.permission === 2) {
+          this.canCreate = true;
+        }
+      }
     });
     this.companyNewsSub$ = this.companiesService.companyNews.subscribe(cn => {
       this.companyNews = cn;
     });
-  }
-
-  ngOnInit() {
-   if (this.company.owner === this.user.id) {
-     this.canCreate = true;
-   }
   }
 
   public dropped(files: NgxFileDropEntry[]) {
@@ -66,7 +71,7 @@ export class CompanyNewsPageComponent implements OnInit, OnDestroy {
         this.loadingImage = true;
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          this.imagePath = this.companiesService.generatePath(file);
+          this.imagePath = this.companiesService.generatePath(file, "news");
           const fileRef = this.storage.ref(this.imagePath);
           const task = this.storage.upload(this.imagePath, file);
           const subscription = task.snapshotChanges().pipe(
@@ -75,6 +80,7 @@ export class CompanyNewsPageComponent implements OnInit, OnDestroy {
                   err => console.log(err),
                 () => {
                   this.loadingImage = false;
+                  this.droppedFile = true;
                   sub.unsubscribe();
                 });
         })
@@ -99,6 +105,7 @@ export class CompanyNewsPageComponent implements OnInit, OnDestroy {
       };
     this.companiesService.addCompanyNews(this.idCompany, news);
     this.form.reset();
+    this.droppedFile = false;
     this.downloadURL = null;
     this.showForm = false;
   }

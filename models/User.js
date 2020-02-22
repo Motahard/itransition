@@ -24,7 +24,19 @@ const userSchema = new mongoose.Schema({
   rates: [{
     rate: Number,
     company: String
-  }]
+  }],
+  donates: [
+    {
+      idCompany: String,
+      count: Number
+    }
+  ],
+  bonuses: [{
+    idBonuse: String,
+    idCompany: String,
+    count: Number
+  }],
+  blocked: Boolean
 });
 
 module.exports = mongoose.model("User", userSchema);

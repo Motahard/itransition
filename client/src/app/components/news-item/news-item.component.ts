@@ -1,11 +1,12 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {CompanyNews} from "../../models/company.class";
 import {CompaniesService} from "../../services/companies.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {finalize} from "rxjs/operators";
 import "firebase/storage";
 import {AngularFireStorage} from "@angular/fire/storage";
+import {MarkdownService} from "ngx-markdown";
 
 @Component({
   selector: "app-news-item",
@@ -24,13 +25,15 @@ export class NewsItemComponent implements OnInit {
   droppedFile: boolean;
   public files: NgxFileDropEntry[] = [];
 
-  constructor(private companiesService: CompaniesService, private storage: AngularFireStorage) {
+  constructor(private companiesService: CompaniesService,
+              private markdown: MarkdownService,
+              private storage: AngularFireStorage) {
   }
 
   ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(`${this.news.title}`),
-      description: new FormControl(`${this.news.description}`),
+      title: new FormControl(`${this.news.title}`, [Validators.required, Validators.minLength(2)]),
+      description: new FormControl(`${this.news.description}`, [Validators.required, Validators.minLength(4)]),
     });
   }
 
@@ -66,7 +69,6 @@ export class NewsItemComponent implements OnInit {
       };
     }
     this.companiesService.updateCompanyNews(this.idCompany, this.news._id, updatedNews);
-    console.log("update", this.news)
     this.edit = false;
     this.downloadURL = null;
     this.imagePath = null;
@@ -78,10 +80,9 @@ export class NewsItemComponent implements OnInit {
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
         this.loadingImage = true;
-        this.droppedFile = true;
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          this.imagePath = this.companiesService.generatePath(file);
+          this.imagePath = this.companiesService.generatePath(file, "news");
           const fileRef = this.storage.ref(this.imagePath);
           const task = this.storage.upload(this.imagePath, file);
           const subscription = task.snapshotChanges().pipe(
@@ -90,6 +91,7 @@ export class NewsItemComponent implements OnInit {
                 err => console.log(err),
                 () => {
                   this.loadingImage = false;
+                  this.droppedFile = true;
                   sub.unsubscribe();
                 });
             })

@@ -21,6 +21,11 @@ module.exports.createUser = async function(req, res) {
   const user = new User({
     name: req.body.name,
     email: req.body.email,
+    permission: 1,
+    blocked: false,
+    donates: [],
+    likes: [],
+    bonuses: [],
     password: hashPassword
   });
 
@@ -72,11 +77,35 @@ module.exports.getUser = async function(req, res) {
     email: user.email,
     likes: user.likes,
     permission: user.permission,
-    rates: user.rates
+    rates: user.rates,
+    bonuses: user.bonuses,
+    donates: user.donates,
+    blocked: user.blocked
   };
   try {
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send("Server error in Get User");
+  }
+};
+
+module.exports.getUserById = async function(req, res) {
+  const { id } = req.query;
+  try {
+    const user = await User.findById(id);
+    const response = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      likes: user.likes,
+      permission: user.permission,
+      rates: user.rates,
+      bonuses: user.bonuses,
+      donates: user.donates,
+      blocked: user.blocked
+    };
+    res.send(response);
+  } catch (e) {
+    res.status(400).send(e);
   }
 };

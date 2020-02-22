@@ -53,8 +53,19 @@
           class="form-control"
           formControlName="tags"
           placeholder="Enter tags...."
+          (keyup)="onKeydown($event)"
         />
         <small class="form-text text-muted">List separated by commas. Not required</small>
+        <div class="mb-3">
+          <div class="mb-0 pt-2" *ngIf="tags">
+            <div class="mx-0">
+              <span *ngFor="let tag of tagsToDisplay"
+                    style="cursor: pointer"
+                    (click)="onTagClick(tag)"
+                    class="badge ml-1 badge-danger">{{ tag }}</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label for="amount">Amount</label>
@@ -112,15 +123,24 @@
         <small class="form-text text-muted">Required</small>
       </div>
       <div class="form-group">
-        <label for="yLink">Youtube link</label>
-        <input
-          type="text"
-          id="yLink"
-          class="form-control"
-          formControlName="yLink"
-          placeholder="Enter Youtube Link...."
-          (submit)="onSubmit()"
-        />
+      <label for="yLink">Youtube link</label>
+      <input
+        type="text"
+        id="yLink"
+        class="form-control"
+        formControlName="yLink"
+        placeholder="Enter Youtube Link...."
+        (submit)="onSubmit()"
+      />
+      <small class="form-text text-muted">Not required</small>
+    </div>
+      <div class="form-group">
+        <label for="yLink">Upload images into gallery</label>
+        <ngx-file-drop
+          *ngIf="!loadingImage"
+          dropZoneLabel="Drop files here"
+          (onFileDrop)="dropped($event)"
+        ></ngx-file-drop>
         <small class="form-text text-muted">Not required</small>
       </div>
       <div class="text-center">

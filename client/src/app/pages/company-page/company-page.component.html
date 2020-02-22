@@ -1,121 +1,233 @@
-<div class="container" *ngIf="company && company._id === id; else loading">
-  <div class="m-lg-4">
-    <div class="card-title px-5 py-3">
-      <h3 class="text-center mb-3">{{ company.title }}</h3>
-      <div class="row justify-content-around">
-        <div class="col-md-6 mb-2">
-          <div class="pl-2 text-primary text-break">
-            <span class="text-muted">Category: </span>
-            <span class="lead">
+<div class="row justify-content-between pl-lg-2 pl-md-1 pl-sm-2 pr-0 p-0 m-0">
+  <div class="col-md-8 col-lg-9 my-4 p-0" *ngIf="company && company._id === id; else loading">
+    <div *ngIf="!editCompany" class="border rounded shadow bg-light align-self-start">
+        <div class="card-title px-5 py-3">
+          <h3 class="text-center mb-3">{{ company.title }}</h3>
+          <div class="row justify-content-around">
+            <div class="col-md-6 mb-2">
+              <div class="pl-2 text-primary text-break">
+                <span class="text-muted">Category: </span>
+                <span class="lead">
              {{ company.category }}
              </span>
-          </div>
-          <div class="card-title pl-2 mb-0 pt-2" *ngIf="company.tags">
-            <div class="mx-0">
-              <span class="text-muted">Tags: </span>
-              <span *ngFor="let tag of company.tags" class="badge ml-1 badge-danger">{{ tag }}</span>
+              </div>
+              <div class="card-title pl-2 mb-0 pt-2" *ngIf="company.tags">
+                <div class="mx-0">
+                  <span class="text-muted">Tags: </span>
+                  <span *ngFor="let tag of company.tags" class="badge ml-1 badge-danger">{{ tag }}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div>
-            <span class="ml-2 text-muted">Company started: </span>
-            <span>
+            <div class="col-md-6">
+              <div>
+                <span class="ml-2 text-muted">Company started: </span>
+                <span>
             {{ company.dateStart |date }}
           </span>
-          </div>
-          <div class="d-flex">
-            <span class="mx-2 text-muted">Rates: </span>
-            <div class="d-flex">
-              <div class="rating d-flex flex-row-reverse">
+              </div>
+              <div class="d-flex">
+                <span class="mx-2 text-muted">Rates: </span>
+                <div class="d-flex">
+                  <div class="rating d-flex flex-row-reverse">
                 <span (click)="onStarClick($event)"
                       [class.clicked]="userLikeRate===5"
                       class="h4 pointer"
                       name="5">☆</span>
-                <span (click)="onStarClick($event)"
-                      [class.clicked]="userLikeRate===4"
-                      class="h4 pointer" name="4">☆</span>
-                <span (click)="onStarClick($event)"
-                      [class.clicked]="userLikeRate===3"
-                      class="h4 pointer" name="3">☆</span>
-                <span (click)="onStarClick($event)"
-                      [class.clicked]="userLikeRate===2"
-                      class="h4 pointer" name="2">☆</span>
-                <span (click)="onStarClick($event)"
-                      [class.clicked]="userLikeRate===1"
-                      class="h4 pointer" name="1">☆</span>
-              </div>
-              <div class="ml-2">
-                 <span *ngIf="company.rates.rate">
+                    <span (click)="onStarClick($event)"
+                          [class.clicked]="userLikeRate===4"
+                          class="h4 pointer" name="4">☆</span>
+                    <span (click)="onStarClick($event)"
+                          [class.clicked]="userLikeRate===3"
+                          class="h4 pointer" name="3">☆</span>
+                    <span (click)="onStarClick($event)"
+                          [class.clicked]="userLikeRate===2"
+                          class="h4 pointer" name="2">☆</span>
+                    <span (click)="onStarClick($event)"
+                          [class.clicked]="userLikeRate===1"
+                          class="h4 pointer" name="1">☆</span>
+                  </div>
+                  <div class="ml-2">
+                 <span *ngIf="company.rates && company.rates.rate">
                 {{ (company.rates.rate / company.rates.count).toFixed(2) }}
               </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <hr class="m-0" />
-    <div class="card-body px-5 py-3">
-      <h3 class="text-center">Description</h3>
-      <p class="text-justify text-break">
-        {{ company.description }}
-      </p>
-
-      <iframe
-        *ngIf="company.youtubeLink"
-        width="100%"
-        height="400"
-        [src]="'https://www.youtube.com/embed/' + company.youtubeLink | youtube"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <hr />
-    <div *ngIf="company.bonuses.length !== 0">
-      <h3 class="text-center mb-4">Bonuses</h3>
-      <div class="row px-5">
-        <div class="col-md-4" *ngFor="let bonuse of company.bonuses">
-          <div class="card p-3">
-            <div class="card-title">
-              <h5 class="text-center">
-                  {{ bonuse.name }}</h5>
-            </div>
-            <div class="card-body pt-0">
-              <div class="card-text">
-                <p class="text-justify">{{ bonuse.description }}</p>
-              </div>
-              <button class="btn btn-block btn-outline-dark"
-                      [routerLink]="'/company/' + id + '/donation/' + bonuse.price">
-                Donate {{ bonuse.price }} c.u.
-              </button>
-            </div>
+        <hr class="m-0" />
+        <div class="card-body px-lg-5 px-md-3 px-sm-3 py-lg-3">
+          <div *ngIf="company.youtubeLink" class="mb-3">
+            <h3 class="text-center mb-3">Video</h3>
+            <iframe
+              width="100%"
+              height="400"
+              [src]="'https://www.youtube.com/embed/' + company.youtubeLink | youtube"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
           </div>
+          <h3 class="text-center">Description</h3>
+          <p [innerHTML]="description" class="text-justify text-break">
+          </p>
         </div>
-      </div>
-      <hr />
-    </div>
-    <div class="px-5 py-3">
-      <p class="text-muted">
-        {{ company.currentAmount }} / {{ company.amount }} c.u.
-      </p>
-      <div class="progress">
-        <div
-          class="progress-bar"
-          role="progressbar"
-          [ngStyle]="{
+        <div *ngIf="company.gallery.length > 0">
+          <hr>
+          <h4 class="text-center">Gallery</h4>
+          <ngb-carousel class="m-5">
+            <ng-template *ngFor="let img of company.gallery" ngbSlide>
+              <div class="picsum-img-wrapper">
+                <img [src]="img.url" alt="Random first slide" class="w-100" height="600px">
+              </div>
+            </ng-template>
+          </ngb-carousel>
+        </div>
+        <hr />
+        <div class="px-5 py-3">
+          <p class="text-muted">
+            {{ company.currentAmount }} / {{ company.amount }}
+          </p>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [ngStyle]="{
             width: amount
           }"
-        >
-          {{ amount }}
+            >
+              {{ amount }}
+            </div>
+          </div>
+          <small class="text-muted">
+            {{ daysRemain }}
+            days remain
+          </small>
+          <button class="btn btn-block my-3 btn-dark" [routerLink]="'/company/' + id + '/donation/' + '0/' + '0'">Donation</button>
+          <div *ngIf="canCreate">
+            <hr>
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-outline-dark mr-1" (click)="editCompany=true">Edit</button>
+            </div>
+          </div>
         </div>
+    </div>
+    <div *ngIf="editCompany">
+      <div class="card p-lg-3 p-2 m-2 text-left">
+        <form [formGroup]="companyForm" (submit)="onSubmit()">
+          <div class="form-group">
+            <label for="titleCompany">Title of Company</label>
+            <input
+              type="text"
+              class="form-control"
+              id="titleCompany"
+              formControlName="title"
+              placeholder="Enter title...."
+            />
+            <small class="form-text text-muted">Min length 2 symbols. Required</small>
+          </div>
+          <div class="form-group">
+            <label for="descriptionCompany">Description</label>
+            <textarea
+              type="text"
+              class="form-control"
+              id="descriptionCompany"
+              formControlName="description"
+              placeholder="Enter description...."
+              rows="5"
+            ></textarea>
+            <small class="form-text text-muted">Min length 64 symbols. Required</small>
+          </div>
+          <div class="form-group">
+            <label for="category">Select Category</label>
+            <select class="form-control"
+                    formControlName="category"
+                    id="category"
+            >
+              <option value="Services">Services</option>
+              <option value="Information Technologies">Information Technologies</option>
+              <option value="Innovations">Innovations</option>
+              <option value="Games">Games</option>
+              <option value="Sport">Sport</option>
+              <option value="Music">Music</option>
+            </select>
+            <small class="form-text text-muted">Required</small>
+          </div>
+          <div class="form-group">
+            <label for="tags">Tags</label>
+            <input
+              type="text"
+              id="tags"
+              class="form-control"
+              formControlName="tags"
+              placeholder="Enter tags...."
+            />
+            <small class="form-text text-muted">List separated by commas. Not required</small>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input
+              type="text"
+              id="amount"
+              class="form-control"
+              formControlName="amount"
+              placeholder="Enter required amount...."
+            />
+            <small class="form-text text-muted">Required</small>
+          </div>
+          <div class="form-group">
+            <label for="dateEnd">Company end date</label>
+            <input type="date" class="form-control" formControlName="dateEnd" id="dateEnd"
+                   [min]="currentDate | date: 'yyyy-MM-dd'"
+                   [value]="company.dateEnd | date: 'yyyy-MM-dd'"
+            />
+            <small class="form-text text-muted">Required</small>
+          </div>
+          <div class="form-group">
+            <label for="yLink">Youtube link</label>
+            <input
+              type="text"
+              id="yLink"
+              class="form-control"
+              formControlName="yLink"
+              placeholder="Enter Youtube Link...."
+              (submit)="onSubmit()"
+            />
+            <small class="form-text text-muted">Not required</small>
+          </div>
+          <div *ngIf="company.gallery.length > 0" class="form-group">
+            <div class="row">
+              <div *ngFor="let img of company.gallery" class="card col-sm-3 p-2">
+                <div *ngIf="!deletingImg">
+                  <img [src]="img.url" alt="img" class="img-fluid">
+                  <button type="button" class="btn btn-dark mt-2" (click)="onDeleteImg(img)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="yLink">Upload images into gallery</label>
+            <div *ngIf="loadingImage" class="p-4 text-center">
+              Uploading images...
+            </div>
+            <ngx-file-drop
+              *ngIf="!loadingImage"
+              dropZoneLabel="Drop files here"
+              (onFileDrop)="dropped($event)"
+            ></ngx-file-drop>
+            <small class="form-text text-muted">Not required</small>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-outline-dark btn-block mb-2 text-center" [disabled]="!companyForm.valid">Save Company</button>
+            <button type="submit" class="btn btn-dark btn-block mb-2 text-center"
+                    (click)="editCompany=false"
+            >Cancel</button>
+          </div>
+        </form>
       </div>
-      <small class="text-muted">
-        {{ daysRemain }}
-        days remain
-      </small>
-      <button class="btn btn-block my-3 btn-dark" [routerLink]="'/company/' + id + '/donation/' + 0">Donation</button>
+    </div>
+    <div class="container-lg container-md m-md-0 mt-md-4 mt-sm-4 mt-5 px-lg-4 px-md-3 px-sm-2">
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link" [className]="showComments ? 'nav-link active' : 'nav-link'"
@@ -130,10 +242,63 @@
           </a>
         </li>
       </ul>
+      <router-outlet></router-outlet>
     </div>
-    <router-outlet></router-outlet>
+  </div>
+  <div class="col-md-4 col-lg-3 my-3 p-0 align-self-start d-none d-lg-block d-md-block" *ngIf="company && company._id === id">
+    <div *ngIf="canCreate" class="text-center mb-3">
+      <button class="btn mt-2 btn-dark mx-3"
+              *ngIf="!addingBonuse"
+              (click)="addingBonuse=true"
+      >Create New Bonuse!</button>
+    </div>
+    <div *ngIf="addingBonuse" class="card p-1 m-2 text-left">
+      <form [formGroup]="form" (ngSubmit)="onAddBonuse()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text"
+                 id="title"
+                 placeholder="New title..."
+                 formControlName="title"
+                 class="form-control">
+          <small class="form-text text-muted">Min length 2 symbols. Required</small>
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="text"
+                 id="price"
+                 placeholder="New price..."
+                 formControlName="price"
+                 class="form-control">
+          <small class="form-text text-muted">Required</small>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea type="text" id="description"
+                    formControlName="description"
+                    placeholder="New description..."
+                    rows="5"
+                    class="form-control"></textarea>
+          <small class="form-text text-muted">Min length 2 symbols. Required</small>
+        </div>
+        <button class="btn btn-block btn-outline-dark"
+                [disabled]="!form.valid"
+                type="submit">Create</button>
+        <button class="btn btn-block btn-dark" (click)="addingBonuse=false">Cancel</button>
+      </form>
+    </div>
+    <div class="mx-3" *ngIf="company.bonuses.length !== 0">
+        <app-bonuses-item
+          *ngFor="let bonuse of company.bonuses"
+          [id]="id"
+          [bonuse]="bonuse"
+          [company]="company"
+          [user]="user"
+        ></app-bonuses-item>
+    </div>
   </div>
 </div>
+
 <ng-template #loading>
   <div class="container">
     <h4 class="text-center">

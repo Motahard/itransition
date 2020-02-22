@@ -1,0 +1,69 @@
+<div class="card py-2 px-lg-4 px-2 bg-light my-2 shadow">
+  <div *ngIf="!onEdit && !onDelete">
+    <div class="card-title">
+      <h5 class="text-center">
+        {{ bonuse.name }}</h5>
+    </div>
+    <div class="card-body p-0 pt-0">
+      <div class="card-text">
+        <p class="text-justify"><span class="text-muted text-break">Description:</span> {{ bonuse.description }}</p>
+        <p class="text-justify"><span class="text-muted">Price:</span> {{ bonuse.price }}</p>
+      </div>
+      <button class="mt-4 btn btn-block btn-outline-dark"
+              [routerLink]="'/company/' + id + '/donation/' + bonuse._id + '/' + bonuse.price">
+        Get Bonuse!
+      </button>
+    </div>
+    <div *ngIf="canCreate">
+      <hr/>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-outline-dark mr-2" (click)="onEdit=true">Edit</button>
+        <button class="btn btn-dark" (click)="onDelete=true">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="onEdit">
+    <form [formGroup]="form" (ngSubmit)="onSaveBonuse()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text"
+               id="title"
+               placeholder="New title..."
+               formControlName="title"
+               class="form-control">
+        <small class="form-text text-muted">Min length 2 symbols. Required</small>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text"
+               id="price"
+               placeholder="New price..."
+               formControlName="price"
+               class="form-control">
+        <small class="form-text text-muted">Required</small>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="text" id="description"
+                  formControlName="description"
+                  placeholder="New description..."
+                  rows="5"
+                  class="form-control"></textarea>
+        <small class="form-text text-muted">Min length 2 symbols. Required</small>
+      </div>
+      <button class="btn btn-block btn-outline-dark"
+              [disabled]="!form.valid"
+              type="submit">Save</button>
+      <button class="btn btn-block btn-dark" (click)="onEdit=false">Cancel</button>
+    </form>
+  </div>
+  <div *ngIf="onDelete">
+    <div class="p-5">
+      <h5 class="text-center">Are you sure?</h5>
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-dark mr-2" (click)="onDeleteBonuse()">Yes</button>
+        <button class="btn btn-dark" (click)="onDelete=false">No</button>
+      </div>
+    </div>
+  </div>
+</div>

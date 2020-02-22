@@ -2,16 +2,20 @@
   <img *ngIf="news.img && news.img.URL"
        [src]="news.img.URL"
        alt="picture news"
-       class="card-img-top">
+       style="max-height: 400px"
+       class="img-fluid">
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{news.title}}</h5>
       <small class="text-muted">{{news.date | date: "dd.MM.yyyy HH:mm"}}</small>
     </div>
-    <p class="text-justify text-break card-text">{{news.description}}</p>
-    <div *ngIf="canCreate" >
-      <button class="btn btn-info p-1 mr-1" (click)="edit=true">edit</button>
-      <button class="btn btn-danger p-1" (click)="onDeleteNews(news._id)">delete</button>
+    <p [innerHTML]="markdown.compile(news.description)" class="text-justify text-break card-text"></p>
+    <div *ngIf="canCreate">
+      <hr>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-outline-dark mr-1" (click)="edit=true">Edit</button>
+        <button class="btn btn-dark" (click)="onDeleteNews(news._id)">Delete</button>
+      </div>
     </div>
   </div>
 </div>
@@ -25,24 +29,35 @@
                placeholder="New title..."
                formControlName="title"
                class="form-control">
+        <small class="text-muted">Required. Min length 2 symbols</small>
       </div>
       <div class="form-group">
         <label for="description">Description</label>
         <textarea type="text" id="description"
                   formControlName="description"
                   placeholder="New description..."
-                  rows="15"
+                  rows="5"
                   class="form-control"></textarea>
+        <small class="text-muted">Required. Min length 4 symbols</small>
       </div>
       <div *ngIf="loadingImage" class="text-center mb-2">
         <p class="lead">Loading...</p>
+      </div>
+      <div *ngIf="droppedFile" class="text-center mb-2">
+        <p class="lead">Loaded</p>
       </div>
       <ngx-file-drop
         *ngIf="!loadingImage"
         dropZoneLabel="Drop files here"
         (onFileDrop)="dropped($event)"
       ></ngx-file-drop>
-      <button class="btn btn-block btn-dark mt-3">Save</button>
+      <div class="mt-3 text-center">
+        <small class="text-muted">Not required</small>
+      </div>
+      <button class="btn btn-block btn-outline-dark mt-3">Save</button>
+      <button
+        (click)="edit = false"
+        class="btn btn-block btn-dark mt-3">Cancel</button>
     </form>
   </div>
 </ng-template>

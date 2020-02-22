@@ -1,5 +1,3 @@
-import {User} from "./user.class";
-
 export interface Company {
   _id?: string;
   owner: string;
@@ -16,6 +14,7 @@ export interface Company {
   comments?: CompanyMessage[];
   news?: CompanyNews[];
   rates?: Rate;
+  gallery?: Gallery[];
 }
 
 interface Rate {
@@ -24,7 +23,14 @@ interface Rate {
   rate: number;
 }
 
-interface Bonuse {
+export interface Gallery {
+  _id?: string;
+  url: string;
+  path: string;
+}
+
+export interface Bonuse {
+  _id?: string;
   name: string;
   price: number;
   description: string;

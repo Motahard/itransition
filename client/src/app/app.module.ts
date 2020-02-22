@@ -5,10 +5,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireStorageModule } from "@angular/fire/storage";
+import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AppRoutingModule } from "./app-routing.module";
 import { NgxFileDropModule } from "ngx-file-drop";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import "firebase/storage";
-// import { MarkdownModule } from "ngx-markdown";
+import { MarkdownModule } from "ngx-markdown";
 
 import { AppComponent } from "./app.component";
 import { LoginPageComponent } from "./pages/login-page/login-page.component";
@@ -30,7 +32,10 @@ import { DonationPageComponent } from "./pages/donation-page/donation-page.compo
 import { CompanyCommentsPageComponent } from "./pages/company-comments-page/company-comments-page.component";
 import { CompanyNewsPageComponent } from "./pages/company-news-page/company-news-page.component";
 import {environment} from "../environments/environment";
-import { NewsItemComponent } from './components/news-item/news-item.component';
+import { NewsItemComponent } from "./components/news-item/news-item.component";
+import { BonusesItemComponent } from "./components/bonuses-item/bonuses-item.component";
+import { FooterComponent } from "./components/footer/footer.component";
+import { AdminPageComponent } from "./pages/admin-page/admin-page.component";
 
 @NgModule({
   declarations: [
@@ -51,7 +56,10 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     DonationPageComponent,
     CompanyCommentsPageComponent,
     CompanyNewsPageComponent,
-    NewsItemComponent
+    NewsItemComponent,
+    BonusesItemComponent,
+    FooterComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
@@ -62,8 +70,10 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     ReactiveFormsModule,
     NgxFileDropModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireStorageModule
-    // MarkdownModule
+    AngularFireStorageModule,
+    NgbModule,
+    AngularFireAuthModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     {

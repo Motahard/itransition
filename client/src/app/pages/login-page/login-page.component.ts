@@ -16,7 +16,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   errorSub$: Subscription;
   error: string;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService,
+              private router: Router) {}
 
   ngOnInit() {
     this.errorSub$ = this.authService.errorLogin.subscribe(err => {

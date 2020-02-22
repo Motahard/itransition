@@ -5,6 +5,25 @@ export interface User {
   likes?: string[];
   permission?: number;
   rates?: Rate[];
+  bonuses?: UserBonuse[];
+  donates?: Donate[];
+  blocked?: boolean;
+}
+
+export interface UserSettings {
+  theme: string;
+  language: string;
+}
+
+export interface UserBonuse {
+  idBonuse: string;
+  idCompany: string;
+  count: number;
+}
+
+export interface Donate {
+  idCompany: string;
+  count: number;
 }
 
 export interface Rate {

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { User } from "../models/user.class";
 
@@ -96,6 +96,20 @@ export class AuthService {
         this.user.next(res);
       })
       .catch(error => console.log(error.message));
+  }
+
+  getUserAdmin() {
+    return this.http
+      .get<User>("/api/user")
+      .toPromise();
+  }
+
+  public getUserById(id) {
+    const params = new HttpParams().set("id", id);
+    return this.http
+      .get<User>("/api/user/id", {
+        params
+      });
   }
 
   public userLogout() {

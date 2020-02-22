@@ -10,11 +10,12 @@ import {NotFoundPageComponent} from "./pages/not-found-page/not-found-page.compo
 import {DonationPageComponent} from "./pages/donation-page/donation-page.component";
 import {CompanyNewsPageComponent} from "./pages/company-news-page/company-news-page.component";
 import {CompanyCommentsPageComponent} from "./pages/company-comments-page/company-comments-page.component";
+import {AdminPageComponent} from "./pages/admin-page/admin-page.component";
 
 const companyRoutes: Routes = [
   { path: "news", component: CompanyNewsPageComponent },
   { path: "comments", component: CompanyCommentsPageComponent }
-]
+];
 
 const routes: Routes = [
   { path: "", component: MainPageComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: "create-company/:id", component: CreateCompanyPageComponent },
   { path: "company/:id", component: CompanyPageComponent, children: companyRoutes },
   { path: "profile/:id", component: ProfilePageComponent },
-  { path: "company/:id/donation/:count", component: DonationPageComponent },
+  { path: "company/:id/donation/:idBonuse/:price", component: DonationPageComponent },
+  { path: "admin", component: AdminPageComponent },
   { path: "404", component: NotFoundPageComponent },
   { path: "**", redirectTo: "/404" }
 ];

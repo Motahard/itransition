@@ -1,0 +1,48 @@
+<div class="container">
+  <div *ngIf="user; else loading" class="card my-5 p-2">
+    <h4 class="text-center mb-3">Users</h4>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">№</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="users.length > 0">
+      <tr *ngFor="let user of users; let i = index">
+        <th>{{i}}</th>
+        <td><a [routerLink]="'/profile/' + user.id">{{user.name}}</a></td>
+        <td>{{user.email}}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-outline-dark my-0 mr-1"
+            (click)="onPermissionClick(1, user.id)"
+            [disabled]="user.permission === 1">User</button>
+          <button
+            class="btn btn-sm btn-outline-dark my-0 mr-1"
+            (click)="onPermissionClick(2, user.id)"
+            [disabled]="user.permission === 2">Admin</button>
+          <button
+            class="btn btn-sm btn-dark my-0 mr-1"
+            (click)="onDeleteClick(user.id)"
+          >Delete</button>
+          <button
+            *ngIf="!user.blocked; else blocked"
+            (click)="onBlockClick(user.id, user.blocked)"
+            class="btn btn-sm btn-danger my-0">Block</button>
+          <ng-template #blocked >
+            <button
+              (click)="onBlockClick(user.id, user.blocked)"
+              class="btn btn-sm btn-success my-0">Unblock</button>
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #loading>
+    <h1 class="text-center mt-5">Loading...</h1>
+  </ng-template>
+</div>
