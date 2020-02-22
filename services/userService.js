@@ -218,11 +218,13 @@ module.exports.getUserBonuse = async function(req, res) {
         for(let i = 0; i < bonusesArr.length; i++) {
             const { idBonuse, idCompany } = bonusesArr[i];
             const company = await Company.findById(idCompany);
-            company.bonuses.forEach(bonuseItem => {
-               if(bonuseItem._id.toString() === idBonuse) {
-                   response.push(bonuseItem);
-               }
-            });
+            if(company) {
+                company.bonuses.forEach(bonuseItem => {
+                    if(bonuseItem._id.toString() === idBonuse) {
+                        response.push(bonuseItem);
+                    }
+                });
+            }
         }
         res.send(response);
     } catch (error) {

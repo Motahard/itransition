@@ -29,7 +29,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
-    this.settings = this.userService.getUserSettingsInLocalStorage();
+    this.settings = this.userService.getUserSettingsInLocalStorage() || {
+      theme: "light",
+      language: "eng"
+    };
     this.userIdRoute = this.activatedRoute.snapshot.paramMap.get("id");
     this.currentUserSub$ = authService.user.subscribe(user => {
       this.currentUser = user;

@@ -73,7 +73,7 @@ import { AdminPageComponent } from "./pages/admin-page/admin-page.component";
     AngularFireStorageModule,
     NgbModule,
     AngularFireAuthModule,
-    MarkdownModule.forRoot()
+    // MarkdownModule.forRoot()
   ],
   providers: [
     {
