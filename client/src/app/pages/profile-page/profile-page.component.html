@@ -30,7 +30,7 @@
               <img src="../../../assets/pencil.svg" class="ml-1" alt="edit" height="16" style="margin-top: -5px">
               <select id="language" formControlName="language" class="custom-select mt-2">
                 <option value="rus">Russian</option>
-                <option [selected]="true" value="eng">English</option>
+                <option value="eng">English</option>
               </select>
             </div>
             <button class="btn btn-block btn-dark mt-3" [disabled]="!form.valid || !canCreate">Update</button>
