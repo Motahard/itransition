@@ -36,6 +36,7 @@ import { NewsItemComponent } from "./components/news-item/news-item.component";
 import { BonusesItemComponent } from "./components/bonuses-item/bonuses-item.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { AdminPageComponent } from "./pages/admin-page/admin-page.component";
+import {NgxPayPalModule} from "ngx-paypal";
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AdminPageComponent } from "./pages/admin-page/admin-page.component";
     AngularFireStorageModule,
     NgbModule,
     AngularFireAuthModule,
-    // MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    NgxPayPalModule
   ],
   providers: [
     {

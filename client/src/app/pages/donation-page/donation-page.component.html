@@ -7,10 +7,9 @@
              type="text"
              [(ngModel)]="donateSum"
              [disabled]="idBonuse.length > 1">
-      <div class="mt-3">
-        <button class="btn btn-outline-dark btn-block"
-        (click)="onDonateClick()"
-        >Donate</button>
+      <small class="text-danger" *ngIf="error">{{error}}</small>
+      <div class="mt-3 text-center">
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
         <button class="btn btn-dark btn-block" [routerLink]="'/company/' +idCompany">Cancel</button>
       </div>
     </div>

@@ -73,7 +73,8 @@ export class UserService {
     const subscription = this.http.put<User>("/api/user", data, {
       params
     }).subscribe(res => {
-      if (this.authService.user.getValue().permission !== 2) {
+      console.log(res, this.authService.user.getValue().id, id);
+      if (this.authService.user.getValue().id === id) {
         this.authService.user.next(res);
       }
     }, err => {

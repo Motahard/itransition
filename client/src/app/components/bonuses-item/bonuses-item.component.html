@@ -10,6 +10,7 @@
         <p class="text-justify"><span class="text-muted">Price:</span> {{ bonuse.price }}</p>
       </div>
       <button class="mt-4 btn btn-block btn-outline-dark"
+              *ngIf="user"
               [routerLink]="'/company/' + id + '/donation/' + bonuse._id + '/' + bonuse.price">
         Get Bonuse!
       </button>

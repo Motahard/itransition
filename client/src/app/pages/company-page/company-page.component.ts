@@ -110,7 +110,11 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
 
   onStarClick(event) {
     const rate = event.target.getAttribute("name");
-    this.companiesService.addNewRate(rate, this.id, this.user.id);
+    if (this.user) {
+      this.companiesService.addNewRate(rate, this.id, this.user.id);
+    } else {
+      return;
+    }
   }
 
   onAddBonuse() {

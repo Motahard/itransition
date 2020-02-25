@@ -25,7 +25,6 @@ export class CompaniesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.companiesService.getCompanies();
     this.tags$ = this.companiesService.getTags().subscribe(res => {
       this.tags = res;
     });
@@ -42,15 +41,17 @@ export class CompaniesComponent implements OnInit, OnDestroy {
       });
     } else if (field === "rate") {
      this.companies = this.companies.sort((a, b) => {
-        const aRate = a.rates.rate / a.rates.count;
-        const bRate = b.rates.rate / b.rates.count;
-        if (aRate - bRate < 0) {
-          return 1;
-        } else if (aRate - bRate === 0) {
-          return 0;
-        } else {
-          return -1;
-        }
+       if (a.rates && b.rates) {
+         const aRate = a.rates.rate / a.rates.count;
+         const bRate = b.rates.rate / b.rates.count;
+         if (aRate - bRate < 0) {
+           return 1;
+         } else if (aRate - bRate === 0) {
+           return 0;
+         } else {
+           return -1;
+         }
+       }
       });
     }
   }
@@ -67,6 +68,6 @@ export class CompaniesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.companiesSub$.unsubscribe();
+    // this.companiesSub$.unsubscribe();
   }
 }

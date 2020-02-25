@@ -59,7 +59,7 @@ const companySchema = new mongoose.Schema({
       username: String,
       likes: Number,
       date: Number,
-      userId: String,
+      userId: String
     }
   ],
   news: [

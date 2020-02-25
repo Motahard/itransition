@@ -104,7 +104,7 @@
             {{ daysRemain }}
             days remain
           </small>
-          <button class="btn btn-block my-3 btn-dark" [routerLink]="'/company/' + id + '/donation/' + '0/' + '0'">Donation</button>
+          <button *ngIf="user" class="btn btn-block my-3 btn-dark" [routerLink]="'/company/' + id + '/donation/' + '0/' + '0'">Donation</button>
           <div *ngIf="canCreate">
             <hr>
             <div class="d-flex justify-content-end">
@@ -298,6 +298,7 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>
 
 <ng-template #loading>
   <div class="container">

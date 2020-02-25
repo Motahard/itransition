@@ -1,7 +1,6 @@
 <div *ngIf="user && !user.blocked || !user; else blocked">
   <app-navbar></app-navbar>
   <router-outlet></router-outlet>
-  <app-footer></app-footer>
 </div>
 <ng-template #blocked>
   <h2 class="mt-5 text-center">You're blocked on this site!</h2>
